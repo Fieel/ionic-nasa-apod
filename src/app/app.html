@@ -1,1 +1,29 @@
-<ion-nav [root]="rootPage"></ion-nav>
+
+<ion-menu [content]="mycontent">
+    <ion-content>
+        <ion-item>
+            <img class="logo-stile" src="./assets/icon/Satellite 2.svg">
+            <!--<img class="logo-stile" src="../assets/icon/Satellite 2.svg">-->
+            <h1>NASA APOD</h1>
+        </ion-item>
+        <ion-list>
+            <button class="voce-menu" ion-item menuToggle (click)="openHomePage()">
+                Today
+            </button>
+            <button class="voce-menu" ion-item menuToggle (click)="openTimemachinePage()">
+                Time machine
+            </button>
+            <button class="voce-menu" ion-item menuToggle (click)="openFavouritesPage()">
+                Favourites
+            </button>
+            <button class="voce-menu" ion-item menuToggle (click)="openSettingsPage()">
+                Settings
+            </button>
+            <button class="voce-menu" ion-item menuToggle (click)="openAboutPage()">
+                About
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>

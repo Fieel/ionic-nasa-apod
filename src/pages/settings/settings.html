@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle left >
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>{{ titolo }}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+    <h1 class="titolo" text-center>Settings</h1>
+    <ion-avatar class="avatar" align-items-center>
+        <img src="./assets/icon/Observatory.svg">
+        <!--<img src="../../assets/icon/Constellation.svg">-->
+    </ion-avatar>
+
+
+    <ion-card>
+        <ion-grid>
+            <ion-row>
+                <ion-col align-self-center>
+                    <h1 class="sottotitolo">Number of days to travel back in time in the "Past" page</h1>
+                </ion-col>
+                <ion-col align-self-center>
+                    <button ion-button color="light" icon-only (click)="this.settingsProvider.increaseDays()">
+                        <ion-icon name='arrow-up'></ion-icon>
+                    </button>
+                    <p class="contatore">{{ this.settingsProvider.daysInThePast }}</p>
+                    <button ion-button color="light" icon-only (click)="this.settingsProvider.decreaseDays()">
+                        <ion-icon name='arrow-down'></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+
+
+
+                        <ion-item>
+                            <ion-label>Today</ion-label>
+                            <ion-select [(ngModel)]="this.settingsProvider.todayLayout" cancelText="Back" okText="Okay">
+                                <ion-option value="card">Card</ion-option>
+                                <ion-option value="fullscreen">Fullscreen</ion-option>
+                            </ion-select>
+                        </ion-item>
+
+
+                        <ion-item>
+                            <ion-label>Past</ion-label>
+                            <ion-select [(ngModel)]="this.settingsProvider.weekLayout" cancelText="Back" okText="Okay">
+                                <ion-option value="card">Cards</ion-option>
+                                <ion-option value="grid">Grid</ion-option>
+                            </ion-select>
+                        </ion-item>
+
+
+
+                <ion-item>
+                    <ion-label>Result</ion-label>
+                    <ion-select [(ngModel)]="this.settingsProvider.resultLayout" cancelText="Back" okText="Okay">
+                        <ion-option value="card">Card</ion-option>
+                        <ion-option value="fullscreen">Fullscreen</ion-option>
+                    </ion-select>
+                </ion-item>
+
+
+                <ion-item>
+                    <ion-label>Favourites</ion-label>
+                    <ion-select [(ngModel)]="this.settingsProvider.favouritesLayout" cancelText="Back" okText="Okay">
+                        <ion-option value="card">Cards</ion-option>
+                        <ion-option value="grid">Grid</ion-option>
+                    </ion-select>
+                </ion-item>
+
+
+
+    <ion-card>
+        <button ion-button (click)="clearStorage()" >Clear storage</button>
+    </ion-card>
+
+</ion-content>

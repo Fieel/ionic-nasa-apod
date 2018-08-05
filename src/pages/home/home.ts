@@ -25,12 +25,11 @@ export class HomePage {
     constructor(
         private splashscreen: SplashScreen,//x gestire lo splashscreen
         private HttpProvider: HttpProvider,//x richieste apod
-        private sanitizer: DomSanitizer,//x iframe youtube nel caso di video
-        private download: DownloadProvider,//x gestire i download
-        private tools: ToolsProvider,//x gestire azioni varie
-        private settings: SettingsProvider//x gestire variabili globali
+        private sanitizer: DomSanitizer,//x iframe youtube nel caso di video | USATO DIRETTAMENTE NELLA VIEW!
+        private download: DownloadProvider,//x gestire i download | USATO DIRETTAMENTE NELLA VIEW!
+        private tools: ToolsProvider,//x gestire azioni varie | USATO DIRETTAMENTE NELLA VIEW!
+        private settings: SettingsProvider//x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
     ) {
-
         //1. inizializzo variabili
         this.titolo = "Today";
         this.data = {};
@@ -44,12 +43,12 @@ export class HomePage {
     }
 
     //chiamato durante un refresh
-    doRefresh(refresher) {
-        console.log('Aggiornamento pagina!');
-        this.getAPOD();
-        console.log('Fine aggiornamento pagina!');
-        refresher.complete();
-    }
+    // doRefresh(refresher) {
+    //     console.log('Aggiornamento pagina!');
+    //     this.getAPOD();
+    //     console.log('Fine aggiornamento pagina!');
+    //     refresher.complete();
+    // }
 
     //chiamata all'api
     getAPOD(){

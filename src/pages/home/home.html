@@ -10,9 +10,9 @@
 <ion-content>
 
     <!-- Refresher -->
-    <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+    <!--<ion-refresher (ionRefresh)="doRefresh($event)">-->
+        <!--<ion-refresher-content></ion-refresher-content>-->
+    <!--</ion-refresher>-->
 
     <!-- TEST ONLINE/OFFLINE-->
     <div *ngIf="this.dataLength != 0;else notOnline">
@@ -48,8 +48,8 @@
                     </span>
 
                     <!-- PREFERITI -->
-                    <span *ngIf="this.tools.dataAvailable()" >
-                <span *ngIf="this.tools.checkIfFavourite(data.date);else notFavouriteIcon">
+                    <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+                <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
                     <ion-icon (click)="this.tools.removeFromFavorites(data)" name="star"></ion-icon>
                 </span>
                 <ng-template #notFavouriteIcon>
@@ -99,14 +99,14 @@
                             <ion-icon name="download"></ion-icon>
                         </span>
                         <!-- PREFERITI -->
-                        <span *ngIf="this.tools.dataAvailable()" >
-                            <span *ngIf="this.tools.checkIfFavourite(data.date);else notFavouriteIcon">
-                                <ion-icon (click)="this.tools.removeFromFavorites(data)" name="star"></ion-icon>
+                        <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+                            <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
+                                <ion-icon (click)="this.settings.removeFromFavourites(data)" name="star"></ion-icon>
                             </span>
                             <ng-template #notFavouriteIcon>
                                 <!-- nel caso non è già nei preferiti -->
                                 <span>
-                                    <ion-icon (click)="this.tools.addToFavorites(data)" name="add-circle"></ion-icon>
+                                    <ion-icon (click)="this.settings.addToFavourites(data)" name="add-circle"></ion-icon>
                                 </span>
                             </ng-template>
                         </span>
@@ -151,8 +151,8 @@
                             <ion-icon name="download"></ion-icon>
                         </span>
                         <!-- PREFERITI -->
-                        <span *ngIf="this.tools.dataAvailable()" >
-                            <span *ngIf="this.tools.checkIfFavourite(data.date);else notFavouriteIcon">
+                        <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+                            <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
                                 <ion-icon (click)="this.tools.removeFromFavorites(data)" name="star"></ion-icon>
                             </span>
                             <ng-template #notFavouriteIcon>

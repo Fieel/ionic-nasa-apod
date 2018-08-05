@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {SettingsProvider} from "../settings/settings";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
 
 
@@ -8,39 +7,8 @@ import {PhotoViewer} from "@ionic-native/photo-viewer";
 export class ToolsProvider {
 
     constructor(public http: HttpClient,
-                private settings: SettingsProvider,
                 private photoViewer: PhotoViewer) {
         console.log('Hello ToolsProvider Provider');
-    }
-
-    //GESTIONE ASYNC DATI/VIEW
-    //ritorna vero o falso in base al fatto che i dati si sono già caricati,
-    //serve alle view per non crashare siccome si caricano più in fretta di quanto
-    //si inizializzino le variabili lol.
-    dataAvailable(){
-        if(this.settings.favourites===undefined){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    //GESTIONE PREFERITI
-    //due metodi che aggiornano l'array contenente i preferiti
-    addToFavorites(data){
-        this.settings.addToFavourites(data);
-    }
-    removeFromFavorites(data){
-        this.settings.removeFromFavourites(data);
-    }
-    checkIfFavourite(date): boolean{
-        console.log('Controllo preferiti...');
-        for(let i of this.settings.favourites){
-            if(i.date == date){
-                return true;
-            }
-        }
-        return false;
     }
 
     //apre l'immagine cliccata in fullscreen
@@ -48,6 +16,8 @@ export class ToolsProvider {
         this.photoViewer.show(hdurl);
     }
 
+    //Estrae l'ID di un video dal proprio URL di youtube così da prenderne la thumbnail
+    //da mostrare come thumbnail al posto dell'immagine
     getYoutubeVideoId(youtubeUrl: string){
         console.log('url youtube: ', youtubeUrl);
         console.log('substringa test ', youtubeUrl.substr(0,23));
@@ -71,5 +41,18 @@ export class ToolsProvider {
             console.log('Non un link di youtube!!');
             return 'assets/imgs/no-thumb.png';
         }
+    }
+
+    //Formatta date da SECONDI a YYYY-MM-DD
+    public formatDate(date: number):string {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 }

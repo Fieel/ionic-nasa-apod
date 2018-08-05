@@ -32,37 +32,12 @@ export class HttpProvider {
             .catch(error => Observable.throw(error.json() || 'Server Error'));
     }
 
-    //ritorna i dati APOD di una data specifica
-    getSpecificAPODnoConvert(date) {
+    //ritorna i dati APOD di una data specifica già passata convertita
+    GetOneDayAPOD(date) {
         return this.http.get('https://api.nasa.gov/planetary/apod?api_key='+this.APIkey+'&date='+date)
             .map(res => res)
             .catch(error => Observable.throw(error.json() || 'Server Error'));
     }
 
-    //ritorna i dati APOD di una data specifica, usando il convertitore per accettare
-    //in formato di secondi
-    getSpecificAPOD(date) {
-        return this.http.get('https://api.nasa.gov/planetary/apod?api_key='+this.APIkey+'&date='+this.formatDate(date))
-            .map(res => res)
-            .catch(error => Observable.throw(error.json() || 'Server Error'));
-    }
 
-    getFAQdata(){
-        return this.http.get('assets/FAQ.json')
-            .map(res => res);
-    }
-
-    //Prende un numero che rappresenta i secondi e lo converte
-    //nel formato YYYY-MM-DD che usa l'API dell'APOD per filtrare il giorno
-    public formatDate(date: number):string {
-        let d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-
-        return [year, month, day].join('-');
-    }
 }

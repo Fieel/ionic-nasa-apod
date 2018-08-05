@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {ResultPage} from "../result/result";
-import {HttpProvider} from "../../providers/http/http";
+import {ToolsProvider} from "../../providers/tools/tools";
 
 /**
  * Generated class for the TimemachinePage page.
@@ -21,7 +21,7 @@ export class TimemachinePage {
     title: string;
 
     constructor(public navCtrl: NavController,
-                public httpProvider:HttpProvider) {
+                private tools: ToolsProvider) {
         this.title = "Time Machine";
         this.setTodayDate();
     }
@@ -39,7 +39,7 @@ export class TimemachinePage {
     //in caso non venisse settata dall'utente passo la data di oggi
     setTodayDate(){
         this.date = new Date().getTime();
-        this.stringDate = this.httpProvider.formatDate(this.date);
-        this.date = this.httpProvider.formatDate(this.date);
+        this.stringDate = this.tools.formatDate(this.date);
+        this.date = this.tools.formatDate(this.date);
     }
 }

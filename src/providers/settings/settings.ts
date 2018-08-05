@@ -131,6 +131,28 @@ export class SettingsProvider {
 
     /* PREFERITI */
 
+    //GESTIONE ASYNC DATI/VIEW
+    //ritorna vero o falso in base al fatto che i dati si sono già caricati,
+    //serve alle view per non crashare siccome si caricano più in fretta di quanto
+    //si inizializzino le variabili lol.
+    public checkIfFavouritesAreAvailable(){
+        if(this.favourites===undefined){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public checkIfAlreadyFavourite(date): boolean{
+        console.log('Controllo preferiti...');
+        for(let i of this.favourites){
+            if(i.date == date){
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Aggiunge all'array dei preferiti una nuova voce
     public addToFavourites(data){

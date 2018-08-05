@@ -1,10 +1,10 @@
 //core stuff
 import { NgModule, ErrorHandler } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';//x il DOM Sanitizer usato nel link di youtube
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { File } from '@ionic-native/file';
-import { IonicStorageModule } from '@ionic/storage';
+import { File } from '@ionic-native/file';//usato per i download
+import { IonicStorageModule } from '@ionic/storage';//usato per salvare key/data pairs nello storage del telefono
 
 //pagine
 import { HomePage } from '../pages/home/home';
@@ -21,10 +21,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 //miei provider ionic g provider <*nome*>
-import { HttpProvider } from '../providers/http/http';//gestisce le chiamate all'API
+import { HttpProvider } from '../providers/http/http';//gestisce le chiamate http all'API
 import { LoadingProvider } from '../providers/loading/loading';//mostra/nasconde popup di loading
-import { SettingsProvider } from '../providers/settings/settings';
-import { DownloadProvider } from '../providers/download/download';
+import { SettingsProvider } from '../providers/settings/settings';//gestisce lo storage, preferiti, layout di pagine e le altre settings
+import { DownloadProvider } from '../providers/download/download';//
 import { ToolsProvider } from '../providers/tools/tools';
 
 //importati da me per offrire funzionalità a più pagine

@@ -50,7 +50,7 @@
                 </span>
 
                     <!-- PREFERITI -->
-                    <span *ngIf="this.tools.checkIfFavourite(i.date);else notFavouriteIcon">
+                    <span *ngIf="this.settings.checkIfAlreadyFavourite(i.date);else notFavouriteIcon">
                         <ion-icon (click)="this.tools.removeFromFavorites(i)" name="star"></ion-icon>
                     </span>
                     <ng-template #notFavouriteIcon>

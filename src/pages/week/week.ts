@@ -99,7 +99,7 @@ export class WeekPage {
         }
         //creo/aggiorno l'array di dati usando le date passate
         for (let $i in this.pastDates){
-            this.HttpProvider.getSpecificAPOD(this.pastDates[$i])
+            this.HttpProvider.GetOneDayAPOD(this.tools.formatDate(this.pastDates[$i]))
                 .subscribe(data => {
                     this.orderedData[$i] = data;
                     this.data = this.orderedData.filter(item => item);

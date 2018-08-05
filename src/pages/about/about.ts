@@ -19,17 +19,10 @@ export class AboutPage {
     FAQdata: any;
 
     constructor(public navCtrl: NavController,
-                public navParams: NavParams,
-                private HttpProvider: HttpProvider) {
+                public navParams: NavParams) {
 
         this.titolo = "";
 
-    }
-
-    getFAQdata(){
-        this.HttpProvider.getFAQdata().subscribe( data => {
-            this.FAQdata = data;
-        })
     }
 
 }

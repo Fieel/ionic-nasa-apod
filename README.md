@@ -20,7 +20,7 @@ The app primary page is Tabs which allows you to navigate between "Today" and "P
 * Red parallelogram: Plugins/packages
 * Pink circle: custom angular component
 
-![Nasa custom APOD app](.\doc\Nasa custom APOD app.png)
+![Nasa custom APOD app](https://github.com/Fieel/NASA_APOD/blob/master/doc/Nasa%20custom%20APOD%20app.png?raw=true)
 
 ### Logic
 

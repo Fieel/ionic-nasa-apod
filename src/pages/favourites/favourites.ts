@@ -21,7 +21,6 @@ import {ToolsProvider} from "../../providers/tools/tools";
 })
 export class FavouritesPage {
     titolo: string;
-
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public httpProvider: HttpProvider,

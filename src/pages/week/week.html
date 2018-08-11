@@ -8,12 +8,29 @@
 </ion-header>
 <ion-content>
 
-    <!-- Refresher -->
-    <!--<ion-refresher (ionRefresh)="doRefresh($event)">-->
-        <!--<ion-refresher-content></ion-refresher-content>-->
-    <!--</ion-refresher>-->
+    <!-- refresher -->
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-        <list [layout]="this.settings.weekLayout" ></list>
+    <div *ngIf="data.length !== 0;else notOnline">
+
+        <list [layout]="this.settings.weekLayout" [data]="data" ></list>
+
+        <ion-card>
+            <button full color="low-contrast" ion-button (click)="getAPOD(this.settings.daysInThePast, false)" > Load {{ this.settings.daysInThePast}} more days </button>
+        </ion-card>
+
+    </div>
+
+    <ng-template #notOnline>
+        <div class="not-online">
+            <h2>No data :( are you online?</h2>
+        </div>
+    </ng-template>
+
+
+
 
 </ion-content>
 

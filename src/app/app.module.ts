@@ -40,6 +40,8 @@ import { IonicImageLoader } from 'ionic-image-loader';
 
 //componenti custom creati da me
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
+import { CardLayoutComponent } from "../components/card-layout/card-layout";
+import { FullscreenLayoutComponent } from "../components/fullscreen-layout/fullscreen-layout";
 
 @NgModule({
     declarations: [
@@ -52,7 +54,9 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
         ResultPage,
         SettingsPage,
         FavouritesPage,
-        ProgressBarComponent
+        ProgressBarComponent,
+        CardLayoutComponent,
+        FullscreenLayoutComponent
     ],
     imports: [
         BrowserModule,

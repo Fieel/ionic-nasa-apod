@@ -1,0 +1,92 @@
+<!-- if IMAGE -->
+<div *ngIf="data.media_type == 'image'" class="fullscreen-layout-wrapper" [style.background-image]="'url(' + data.url + ')'">
+
+  <div class="data-wrapper">
+    <h3>{{data.title}}</h3>
+    <p>{{data.date}}</p>
+    <p class="testo">{{data.explanation}}</p>
+
+
+
+    <!-- icone + progress bar -->
+    <progress-bar *ngIf="data.date == this.download.downloadingDate" [progress]="this.download.progress"></progress-bar>
+    <div class="icons">
+      <!-- DOWNLOAD -->
+      <span *ngIf="data.media_type == 'image'" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)">
+                            <ion-icon name="download"></ion-icon>
+                        </span>
+      <!-- PREFERITI -->
+      <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+                            <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
+                                <ion-icon (click)="this.settings.removeFromFavourites(data)" name="star"></ion-icon>
+                            </span>
+                            <ng-template #notFavouriteIcon>
+                                <!-- nel caso non è già nei preferiti -->
+                                <span>
+                                    <ion-icon (click)="this.settings.addToFavourites(data)" name="add-circle"></ion-icon>
+                                </span>
+                            </ng-template>
+                        </span>
+      <!-- LINK DIRETTO -->
+      <span *ngIf="data.media_type == 'video'">
+                            <a class="external-link" href="{{data.url}}">
+                                <ion-icon name="link"></ion-icon>
+                            </a>
+                        </span>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+
+<!-- if VIDEO -->
+<div *ngIf="data.media_type == 'video'" class="fullscreen-layout-wrapper" [style.background-image]="'url('+this.tools.getYoutubeVideoId(data.url)+')'">
+
+  <div class="data-wrapper">
+    <h3>{{data.title}}</h3>
+    <p>{{data.date}}</p>
+    <p class="testo">{{data.explanation}}</p>
+
+    <!-- icone + progress bar -->
+    <progress-bar *ngIf="data.date == this.download.downloadingDate" [progress]="this.download.progress"></progress-bar>
+    <div class="icons">
+      <!-- DOWNLOAD -->
+      <span *ngIf="data.media_type == 'image'" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)">
+                            <ion-icon name="download"></ion-icon>
+                        </span>
+      <!-- PREFERITI -->
+      <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+                            <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
+                                <ion-icon (click)="this.settings.removeFromFavourites(data)" name="star"></ion-icon>
+                            </span>
+                            <ng-template #notFavouriteIcon>
+                                <!-- nel caso non è già nei preferiti -->
+                                <span>
+                                    <ion-icon (click)="this.settins.addToFavourites(data)" name="add-circle"></ion-icon>
+                                </span>
+                            </ng-template>
+                        </span>
+      <!-- LINK DIRETTO -->
+      <span *ngIf="data.media_type == 'video'">
+                            <a class="external-link" href="{{data.url}}">
+                                <ion-icon name="link"></ion-icon>
+                            </a>
+                        </span>
+    </div>
+
+
+  </div>
+</div>

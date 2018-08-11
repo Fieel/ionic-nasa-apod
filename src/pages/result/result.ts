@@ -26,16 +26,14 @@ export class ResultPage {
 
     //per l'API
     data: any;
-    dataLength: number;
+    dataLength: number;//usato nella view per testare se si e' online
 
-    constructor(public navParams: NavParams,
+    constructor(
+        private navParams: NavParams,
                 private HttpProvider: HttpProvider,
                 private loading: LoadingProvider,
-                private photoViewer: PhotoViewer,
-                private sanitizer: DomSanitizer,
-                public settings: SettingsProvider,
-                private download: DownloadProvider,
-                private tools: ToolsProvider) {
+                private  settings: SettingsProvider
+    ) {
 
         this.pageTitle = "Result";
         this.date = navParams.get('date');

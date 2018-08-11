@@ -24,11 +24,11 @@
                     <h1 class="sottotitolo">Number of days to travel back in time in the "Past" page</h1>
                 </ion-col>
                 <ion-col align-self-center>
-                    <button ion-button color="light" icon-only (click)="this.settingsProvider.increaseDays()">
+                    <button ion-button color="light" icon-only (click)="this.settings.increaseDays()">
                         <ion-icon name='arrow-up'></ion-icon>
                     </button>
-                    <p class="contatore">{{ this.settingsProvider.daysInThePast }}</p>
-                    <button ion-button color="light" icon-only (click)="this.settingsProvider.decreaseDays()">
+                    <p class="contatore">{{ this.settings.daysInThePast }}</p>
+                    <button ion-button color="light" icon-only (click)="this.settings.decreaseDays()">
                         <ion-icon name='arrow-down'></ion-icon>
                     </button>
                 </ion-col>
@@ -40,7 +40,7 @@
 
                         <ion-item>
                             <ion-label>Today</ion-label>
-                            <ion-select [(ngModel)]="this.settingsProvider.todayLayout" cancelText="Back" okText="Okay">
+                            <ion-select [(ngModel)]="this.settings.todayLayout" cancelText="Back" okText="Okay">
                                 <ion-option value="card">Card</ion-option>
                                 <ion-option value="fullscreen">Fullscreen</ion-option>
                             </ion-select>
@@ -49,7 +49,7 @@
 
                         <ion-item>
                             <ion-label>Past</ion-label>
-                            <ion-select [(ngModel)]="this.settingsProvider.weekLayout" cancelText="Back" okText="Okay">
+                            <ion-select [(ngModel)]="this.settings.weekLayout" cancelText="Back" okText="Okay">
                                 <ion-option value="card">Cards</ion-option>
                                 <ion-option value="grid">Grid</ion-option>
                             </ion-select>
@@ -59,7 +59,7 @@
 
                 <ion-item>
                     <ion-label>Result</ion-label>
-                    <ion-select [(ngModel)]="this.settingsProvider.resultLayout" cancelText="Back" okText="Okay">
+                    <ion-select [(ngModel)]="this.settings.resultLayout" cancelText="Back" okText="Okay">
                         <ion-option value="card">Card</ion-option>
                         <ion-option value="fullscreen">Fullscreen</ion-option>
                     </ion-select>
@@ -68,7 +68,7 @@
 
                 <ion-item>
                     <ion-label>Favourites</ion-label>
-                    <ion-select [(ngModel)]="this.settingsProvider.favouritesLayout" cancelText="Back" okText="Okay">
+                    <ion-select [(ngModel)]="this.settings.favouritesLayout" cancelText="Back" okText="Okay">
                         <ion-option value="card">Cards</ion-option>
                         <ion-option value="grid">Grid</ion-option>
                     </ion-select>
@@ -78,6 +78,10 @@
 
     <ion-card>
         <button ion-button (click)="clearStorage()" >Clear storage</button>
+    </ion-card>
+
+    <ion-card>
+        <button ion-button (click)="settings.setActiveTheme('light-theme')" >Toggle theme</button>
     </ion-card>
 
 </ion-content>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
+import { BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class SettingsProvider {
@@ -12,11 +13,41 @@ export class SettingsProvider {
     public resultLayout: string;
     public favouritesLayout: string;
 
-    constructor(private storage: Storage,
-                private alertCtrl: AlertController) {
+   //osservabile per cambiare tema dinamiacmente
+   // https://www.youtube.com/watch?v=GgYfGHG7bQc
+    public theme: BehaviorSubject<string>;
+
+    selectedTheme: string;
+
+    constructor(
+        private storage: Storage,
+        private alertCtrl: AlertController
+    ) {
+        //creo un osservabile che contiene il tema attuale
+        this.theme = new BehaviorSubject('dark-theme');
+        this.getActiveTheme().subscribe(val => this.selectedTheme = val);
     }
 
+    //
+    // THEMING
+    //
 
+    setActiveTheme(){
+        console.log('setActiveTheme ative ');
+            if (this.selectedTheme === 'light-theme'){
+                this.theme.next('dark-theme');
+                console.log('light->dark');
+            } else {
+                this.theme.next('light-theme');
+                console.log('dark->light');
+            }
+
+            console.log('tema corrente: ', this.selectedTheme)
+    }
+
+    getActiveTheme(){
+        return this.theme.asObservable();
+    }
     /* STORAGE */
 
 

@@ -18,18 +18,19 @@ export class SettingsPage {
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
-                public settingsProvider: SettingsProvider) {
+                public settings: SettingsProvider) {
 
         this.titolo = "Settings";
         console.log("SettingsPage loaded");
+
     }
 
     clearStorage(){
-        this.settingsProvider.clearStorage();
+        this.settings.clearStorage();
     }
 
     ionViewWillLeave(){
-        this.settingsProvider.updateStorageData();
+        this.settings.updateStorageData();
     }
 
 

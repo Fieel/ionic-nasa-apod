@@ -18,11 +18,13 @@ import {SettingsProvider} from "../providers/settings/settings";
 declare var cordova: any;
 declare var imagesaver: any;
 declare var window: any;
+
 @Component({
     templateUrl: 'app.html',
 })
 export class MyApp {
     rootPage:any = TabsPage;
+    selectedTheme: string;
 
     @ViewChild(Nav) private nav: Nav;
 
@@ -31,6 +33,9 @@ export class MyApp {
                 splashScreen: SplashScreen,
                 private imageLoaderConfig: ImageLoaderConfig,
                 private settings: SettingsProvider) {
+
+        this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.

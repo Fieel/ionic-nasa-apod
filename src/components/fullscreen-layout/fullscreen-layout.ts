@@ -24,7 +24,7 @@ export class FullscreenLayoutComponent {
       private tools: ToolsProvider,//x gestire azioni varie | USATO DIRETTAMENTE NELLA VIEW!
       private settings: SettingsProvider//x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
   ) {
-      console.log('FullscreenLayoutComponent: ', this.data);
+      console.log('FullscreenLayoutComponent loaded: ', this.data);
   }
 
 }

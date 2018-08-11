@@ -42,6 +42,7 @@ import { IonicImageLoader } from 'ionic-image-loader';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 import { CardLayoutComponent } from "../components/card-layout/card-layout";
 import { FullscreenLayoutComponent } from "../components/fullscreen-layout/fullscreen-layout";
+import { ListComponent } from "../components/list/list";
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { FullscreenLayoutComponent } from "../components/fullscreen-layout/fulls
         FavouritesPage,
         ProgressBarComponent,
         CardLayoutComponent,
-        FullscreenLayoutComponent
+        FullscreenLayoutComponent,
+        ListComponent
     ],
     imports: [
         BrowserModule,

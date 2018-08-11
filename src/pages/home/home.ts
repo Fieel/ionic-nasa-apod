@@ -37,6 +37,8 @@ export class HomePage {
         //3. nascondo lo splashscreen
         this.splashscreen.hide();
 
+        console.log("HomePage loaded");
+
     }
 
     //chiamato durante un refresh

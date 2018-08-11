@@ -31,6 +31,7 @@ export class FavouritesPage {
                 private tools: ToolsProvider) {
 
         this.titolo = "Favourites";
+        console.log("FavouritesPage loaded")
 
     }
 

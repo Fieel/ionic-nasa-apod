@@ -24,6 +24,7 @@ export class TimemachinePage {
                 private tools: ToolsProvider) {
         this.title = "Time Machine";
         this.setTodayDate();
+        console.log("TimeMachinePage loaded");
     }
     changePage(){
         console.log('CLICK cambio pagina con data ', this.date);

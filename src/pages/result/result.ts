@@ -45,6 +45,8 @@ export class ResultPage {
         this.getAPOD(this.date);
         this.dataLength = Object.keys(this.data).length;
         loading.hideLoading();
+
+        console.log("ResultPage loaded");
     }
 
     //chiamato durante un refresh

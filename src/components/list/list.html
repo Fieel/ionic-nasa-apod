@@ -1,0 +1,77 @@
+<div *ngIf="data.length !== 0;else notOnline">
+
+
+    <!-- check card layout -->
+    <div *ngIf="this.layout === 'card' ">
+
+
+        <div *ngFor="let i of data">
+            <card-layout [data]="i" ></card-layout>
+        </div>
+
+    </div>
+    <!-- END layout card -->
+
+
+
+    <!-- check grid layout -->
+    <div *ngIf="this.layout === 'grid' ">
+
+        <ion-grid>
+
+            <ion-row class="row" responsive-sm wrap >
+
+                <ion-col col-6 *ngFor="let i of data">
+
+                    <ion-card class="blurred-title-card" (click)="changePage(i.date)">
+
+                        <!-- se è un video allora uso la thumbnail per il background -->
+                        <div *ngIf="i.media_type == 'image'" class="card-image" [style.background-image]="'url(' + i.url + ')'" ></div>
+                        <div *ngIf="i.media_type == 'video'" class="card-image" [style.background-image]="'url('+this.tools.getYoutubeVideoId(i.url)+')'" ></div>
+
+
+                        <div class="card-title-background">
+                            <span *ngIf="i.media_type == 'image'" [style.background-image]="'url(' + i.url + ')'"></span>
+                            <span *ngIf="i.media_type == 'video'" [style.background-image]="'url('+this.tools.getYoutubeVideoId(i.url)+')'"></span>
+                        </div>
+
+                        <div class="card-title">
+                            <p>
+                                {{i.title}}
+                            </p>
+                            <p  class="data">
+                                {{i.date}}
+                            </p>
+                        </div>
+
+                    </ion-card>
+
+                    <!--<ion-card>-->
+                    <!--&lt;!&ndash;<img src="{{ i.url }}"/>&ndash;&gt;-->
+                    <!--<img-loader src="{{ i.url }}" useImg></img-loader>-->
+                    <!--<div class="card-title">{{ i.title }}</div>-->
+                    <!--&lt;!&ndash;<div class="card-subtitle">{{ i.date }}</div>&ndash;&gt;-->
+                    <!--</ion-card>-->
+
+                </ion-col>
+
+            </ion-row>
+
+        </ion-grid>
+
+    </div>
+    <!-- END layout grid -->
+
+    <ion-card>
+        <button full color="low-contrast" ion-button (click)="getAPOD(this.settings.daysInThePast, false)" > Load {{ this.settings.daysInThePast}} more days </button>
+    </ion-card>
+
+</div>
+
+<ng-template #notOnline>
+    <div class="not-online">
+        <h2>No data :( are you online?</h2>
+    </div>
+</ng-template>
+
+

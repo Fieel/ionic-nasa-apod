@@ -13,5 +13,6 @@ export class TabsPage {
 
   constructor() {
 
+      console.log("TabsPage loaded");
   }
 }

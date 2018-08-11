@@ -25,7 +25,7 @@ export class CardLayoutComponent {
       private tools: ToolsProvider,//x gestire azioni varie | USATO DIRETTAMENTE NELLA VIEW!
       private settings: SettingsProvider//x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
      ) {
-    console.log('CardLayoutComponent: ', this.data);
+    console.log('CardLayoutComponent loaded: ', this.data);
   }
 
 }

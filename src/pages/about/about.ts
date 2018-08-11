@@ -16,12 +16,12 @@ import {HttpProvider} from "../../providers/http/http";
 export class AboutPage {
 
     titolo: string;
-    FAQdata: any;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams) {
 
-        this.titolo = "";
+        this.titolo = "About";
+        console.log("AboutPage loaded");
 
     }
 

@@ -20,7 +20,8 @@ export class SettingsPage {
                 public navParams: NavParams,
                 public settingsProvider: SettingsProvider) {
 
-        this.titolo = "";
+        this.titolo = "Settings";
+        console.log("SettingsPage loaded");
     }
 
     clearStorage(){

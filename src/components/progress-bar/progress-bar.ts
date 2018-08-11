@@ -9,7 +9,6 @@ export class ProgressBarComponent {
     @Input('progress') progress;
 
     constructor() {
-
     }
 
 }

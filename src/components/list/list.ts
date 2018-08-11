@@ -19,7 +19,6 @@ export class ListComponent {
     @Input('layout') layout;
     @Input('data') data;
 
-
   constructor(
       private tools: ToolsProvider,
       private navCtrl: NavController,

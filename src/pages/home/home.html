@@ -7,23 +7,26 @@
     </ion-navbar>
 </ion-header>
 
+
 <ion-content>
-    <!-- Refresher -->
-    <!--<ion-refresher (ionRefresh)="doRefresh($event)">-->
-        <!--<ion-refresher-content></ion-refresher-content>-->
-    <!--</ion-refresher>-->
+
 
     <!-- TEST ONLINE/OFFLINE-->
-    <div *ngIf="this.dataLength != 0;else notOnline">
+    <div  style="height: 100%;" *ngIf="this.dataLength != 0;else notOnline">
 
         <!-- Layout card -->
-        <div *ngIf="this.settings.todayLayout === 'card' ">
+        <div  style="height: 100%;" *ngIf="this.settings.todayLayout === 'card' ">
+            <!-- Refresher -->
+            <ion-refresher (ionRefresh)="doRefresh($event)">
+                <ion-refresher-content></ion-refresher-content>
+            </ion-refresher>
             <card-layout *ngIf="this.dataLength != 0" [data]="data"></card-layout>
         </div>
 
         <!-- layout fullscreen -->
-        <div *ngIf="this.settings.todayLayout === 'fullscreen' ">
-            <fullscreen-layout *ngIf="this.dataLength != 0" [data]="data"></fullscreen-layout>
+        <div  style="height: 100%;" *ngIf="this.settings.todayLayout === 'fullscreen' ">
+
+            <fullscreen-layout  style="height: 100%;" *ngIf="this.dataLength != 0" [data]="data"></fullscreen-layout>
         </div>
 
     </div>

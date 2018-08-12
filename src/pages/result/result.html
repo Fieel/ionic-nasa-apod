@@ -20,7 +20,7 @@
     <!--</ion-refresher>-->
 
     <!-- TEST ONLINE/OFFLINE-->
-    <div *ngIf="this.dataLength != 0;else notOnline">
+    <div style="height: 100%;" *ngIf="this.dataLength != 0;else notOnline">
 
         <!-- Layout card -->
         <div *ngIf="this.settings.resultLayout === 'card' ">
@@ -28,8 +28,8 @@
         </div>
 
         <!-- layout fullscreen -->
-        <div *ngIf="this.settings.resultLayout === 'fullscreen' ">
-            <fullscreen-layout *ngIf="this.dataLength != 0" [data]="data"></fullscreen-layout>
+        <div style="height: 100%;" *ngIf="this.settings.resultLayout === 'fullscreen' ">
+            <fullscreen-layout style="height: 100%;" *ngIf="this.dataLength != 0" [data]="data"></fullscreen-layout>
         </div>
 
     </div>

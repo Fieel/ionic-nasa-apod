@@ -37,6 +37,8 @@ import { IonicImageLoader } from 'ionic-image-loader';
     //https://www.npmjs.com/package/ionic-image-loader
 // import { FileOpener } from '@ionic-native/file-opener';
     //https://ionicframework.com/docs/native/file-opener/
+import { CacheModule } from 'ionic-cache';
+    //https://www.npmjs.com/package/ionic-cache
 
 //componenti custom creati da me
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
@@ -65,7 +67,8 @@ import { ListComponent } from "../components/list/list";
         IonicModule.forRoot(MyApp),
         HttpClientModule,
         IonicImageLoader.forRoot(),
-        IonicStorageModule.forRoot()
+        IonicStorageModule.forRoot(),
+        CacheModule.forRoot()
     ],
     bootstrap: [IonicApp],
     entryComponents: [

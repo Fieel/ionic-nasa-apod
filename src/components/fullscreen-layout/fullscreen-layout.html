@@ -1,8 +1,9 @@
 <!-- if IMAGE -->
-<div *ngIf="data.media_type == 'image'" class="fullscreen-layout-wrapper" [style.background-image]="'url(' + data.url + ')'">
+<div  style="height: 100%;" *ngIf="data.media_type == 'image'" class="fullscreen-layout-wrapper" [style.background-image]="'url(' + data.url + ')'">
 
   <div class="data-wrapper">
     <h3>{{data.title}}</h3>
+    <p *ngIf="data.copyright">{{data.copyright}}</p>
     <p>{{data.date}}</p>
     <p class="testo">{{data.explanation}}</p>
 
@@ -53,7 +54,7 @@
 </div>
 
 <!-- if VIDEO -->
-<div *ngIf="data.media_type == 'video'" class="fullscreen-layout-wrapper" [style.background-image]="'url('+this.tools.getYoutubeVideoId(data.url)+')'">
+<div  style="height: 100%;" *ngIf="data.media_type == 'video'" class="fullscreen-layout-wrapper" [style.background-image]="'url('+this.tools.getYoutubeVideoId(data.url)+')'">
 
   <div class="data-wrapper">
     <h3>{{data.title}}</h3>
@@ -75,7 +76,7 @@
                             <ng-template #notFavouriteIcon>
                                 <!-- nel caso non è già nei preferiti -->
                                 <span>
-                                    <ion-icon (click)="this.settins.addToFavourites(data)" name="add-circle"></ion-icon>
+                                    <ion-icon (click)="this.settings.addToFavourites(data)" name="add-circle"></ion-icon>
                                 </span>
                             </ng-template>
                         </span>

@@ -20,7 +20,7 @@ export class AboutPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams) {
 
-        this.titolo = "About";
+        this.titolo = "";
         console.log("AboutPage loaded");
 
     }

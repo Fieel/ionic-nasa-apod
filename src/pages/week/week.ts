@@ -45,8 +45,9 @@ export class WeekPage {
         private settings: SettingsProvider,
     ) {
         //titolo pagina
-        this.titolo = 'Last '+ this.settings.daysInThePast +' days';
-        console.log("WeekPage loaded")
+        // this.titolo = 'Last '+ this.settings.daysInThePast +' days';
+        this.titolo = 'Past';
+        console.log("WeekPage loaded");
 
         //setto le variabili con le date
         this.todayDate = new Date();

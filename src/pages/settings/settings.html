@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <button ion-button menuToggle left >
+        <button ion-button menuToggle left>
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>{{ titolo }}</ion-title>
@@ -11,6 +11,7 @@
 <ion-content padding>
 
     <h1 class="titolo" text-center>Settings</h1>
+
     <ion-avatar class="avatar" align-items-center>
         <img src="./assets/icon/Observatory.svg">
         <!--<img src="../../assets/icon/Constellation.svg">-->
@@ -21,7 +22,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col align-self-center>
-                    <h1 class="sottotitolo">Number of days to travel back in time in the "Past" page</h1>
+                    <h1 class="sottotitolo"># of elements in "Past" page</h1>
                 </ion-col>
                 <ion-col align-self-center>
                     <button ion-button color="light" icon-only (click)="this.settings.increaseDays()">
@@ -36,52 +37,61 @@
         </ion-grid>
     </ion-card>
 
-
-
-                        <ion-item>
-                            <ion-label>Today</ion-label>
-                            <ion-select [(ngModel)]="this.settings.todayLayout" cancelText="Back" okText="Okay">
-                                <ion-option value="card">Card</ion-option>
-                                <ion-option value="fullscreen">Fullscreen</ion-option>
-                            </ion-select>
-                        </ion-item>
-
-
-                        <ion-item>
-                            <ion-label>Past</ion-label>
-                            <ion-select [(ngModel)]="this.settings.weekLayout" cancelText="Back" okText="Okay">
-                                <ion-option value="card">Cards</ion-option>
-                                <ion-option value="grid">Grid</ion-option>
-                            </ion-select>
-                        </ion-item>
-
-
-
-                <ion-item>
-                    <ion-label>Result</ion-label>
-                    <ion-select [(ngModel)]="this.settings.resultLayout" cancelText="Back" okText="Okay">
-                        <ion-option value="card">Card</ion-option>
-                        <ion-option value="fullscreen">Fullscreen</ion-option>
-                    </ion-select>
-                </ion-item>
-
-
-                <ion-item>
-                    <ion-label>Favourites</ion-label>
-                    <ion-select [(ngModel)]="this.settings.favouritesLayout" cancelText="Back" okText="Okay">
-                        <ion-option value="card">Cards</ion-option>
-                        <ion-option value="grid">Grid</ion-option>
-                    </ion-select>
-                </ion-item>
-
-
-
     <ion-card>
-        <button ion-button (click)="clearStorage()" >Clear storage</button>
+        <h1 class="settings-subtitle">Pages layouts</h1>
+
+        <ion-item>
+            <ion-label class="settings-layout-labels">Today</ion-label>
+            <ion-select [(ngModel)]="this.settings.todayLayout" cancelText="Back" okText="Okay">
+                <ion-option value="card">Card</ion-option>
+                <ion-option value="fullscreen">Fullscreen</ion-option>
+            </ion-select>
+        </ion-item>
+
+
+        <ion-item>
+            <ion-label class="settings-layout-labels">Past</ion-label>
+            <ion-select [(ngModel)]="this.settings.weekLayout" cancelText="Back" okText="Okay">
+                <ion-option value="card">Cards</ion-option>
+                <ion-option value="grid">Grid</ion-option>
+            </ion-select>
+        </ion-item>
+
+
+        <ion-item>
+            <ion-label class="settings-layout-labels">Result</ion-label>
+            <ion-select [(ngModel)]="this.settings.resultLayout" cancelText="Back" okText="Okay">
+                <ion-option value="card">Card</ion-option>
+                <ion-option value="fullscreen">Fullscreen</ion-option>
+            </ion-select>
+        </ion-item>
+
+
+        <ion-item>
+            <ion-label class="settings-layout-labels">Favourites</ion-label>
+            <ion-select [(ngModel)]="this.settings.favouritesLayout" cancelText="Back" okText="Okay">
+                <ion-option value="card">Cards</ion-option>
+                <ion-option value="grid">Grid</ion-option>
+            </ion-select>
+        </ion-item>
+
     </ion-card>
 
     <ion-card>
-        <button ion-button (click)="settings.setActiveTheme('light-theme')" >Toggle theme</button>
+        <ion-card-title class="settings-subtitle">Erase all app data</ion-card-title>
+        <ion-card-content>
+            <p>This will delete all app data from the phone, including settings and favorites.</p>
+        </ion-card-content>
+        <button ion-button (click)="clearStorage()">Clear settinggs</button>
+
+    </ion-card>
+
+    <ion-card>
+        <h1 class="settings-subtitle">Themes</h1>
+        <ion-card-content>
+            <p>Switch between light and dark themes.</p>
+        </ion-card-content>
+        <button ion-button (click)="settings.setActiveTheme('light-theme')">Toggle theme</button>
     </ion-card>
 
 </ion-content>

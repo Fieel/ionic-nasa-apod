@@ -42,12 +42,12 @@ export class HomePage {
     }
 
     //chiamato durante un refresh
-    // doRefresh(refresher) {
-    //     console.log('Aggiornamento pagina!');
-    //     this.getAPOD();
-    //     console.log('Fine aggiornamento pagina!');
-    //     refresher.complete();
-    // }
+    doRefresh(refresher) {
+        console.log('Aggiornamento pagina!');
+        this.getAPOD();
+        console.log('Fine aggiornamento pagina!');
+        refresher.complete();
+    }
 
     //chiamata all'api
     getAPOD(){

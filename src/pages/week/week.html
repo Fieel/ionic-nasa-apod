@@ -17,9 +17,7 @@
 
         <list [layout]="this.settings.weekLayout" [data]="data" ></list>
 
-        <ion-card>
-            <button full ion-button (click)="getAPOD(this.settings.daysInThePast, false)" > Load {{ this.settings.daysInThePast}} more days </button>
-        </ion-card>
+        <button full ion-button (click)="getAPOD(this.settings.daysInThePast, false)" > Load {{ this.settings.daysInThePast}} more days </button>
 
     </div>
 

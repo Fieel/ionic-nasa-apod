@@ -4,6 +4,7 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ImageLoaderConfig } from "ionic-image-loader";
+import { CacheService } from "ionic-cache";
 
 //pagine
 import { TabsPage } from '../pages/tabs/tabs';
@@ -24,6 +25,8 @@ declare var window: any;
 })
 export class MyApp {
     rootPage:any = TabsPage;
+
+    //tema in uso
     selectedTheme: string;
 
     @ViewChild(Nav) private nav: Nav;
@@ -32,15 +35,22 @@ export class MyApp {
                 statusBar: StatusBar,
                 splashScreen: SplashScreen,
                 private imageLoaderConfig: ImageLoaderConfig,
-                private settings: SettingsProvider) {
+                private settings: SettingsProvider,
+                cache: CacheService) {
 
+        //osservabile da fetchare che aggiorna il tema in uso
+        // https://www.youtube.com/watch?v=GgYfGHG7bQc
         this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
 
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
 
-
+            //CACHING
+            // Set TTL to 12h
+            cache.setDefaultTTL(60 * 60 * 12);
+            // Keep our cached results when device is offline!
+            cache.setOfflineInvalidate(false);
 
 
             //carico le settings dallo storage

@@ -9,76 +9,53 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SettingsProvider } from "../settings/settings";
 import { PhotoViewer } from "@ionic-native/photo-viewer";
 var ToolsProvider = (function () {
-    function ToolsProvider(http, settings, photoViewer) {
+    function ToolsProvider(http, photoViewer) {
         this.http = http;
-        this.settings = settings;
         this.photoViewer = photoViewer;
-        console.log('Hello ToolsProvider Provider');
     }
-    //GESTIONE ASYNC DATI/VIEW
-    //ritorna vero o falso in base al fatto che i dati si sono già caricati,
-    //serve alle view per non crashare siccome si caricano più in fretta di quanto
-    //si inizializzino le variabili lol.
-    ToolsProvider.prototype.dataAvailable = function () {
-        if (this.settings.favourites === undefined) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    };
-    //GESTIONE PREFERITI
-    //due metodi che aggiornano l'array contenente i preferiti
-    ToolsProvider.prototype.addToFavorites = function (data) {
-        this.settings.addToFavourites(data);
-    };
-    ToolsProvider.prototype.removeFromFavorites = function (data) {
-        this.settings.removeFromFavourites(data);
-    };
-    ToolsProvider.prototype.checkIfFavourite = function (date) {
-        console.log('Controllo preferiti...');
-        for (var _i = 0, _a = this.settings.favourites; _i < _a.length; _i++) {
-            var i = _a[_i];
-            if (i.date == date) {
-                return true;
-            }
-        }
-        return false;
-    };
     //apre l'immagine cliccata in fullscreen
     ToolsProvider.prototype.showFullScreenImage = function (hdurl) {
         this.photoViewer.show(hdurl);
     };
+    //Estrae l'ID di un video dal proprio URL di youtube così da prenderne la thumbnail
+    //da mostrare come thumbnail al posto dell'immagine
     ToolsProvider.prototype.getYoutubeVideoId = function (youtubeUrl) {
-        console.log('url youtube: ', youtubeUrl);
-        console.log('substringa test ', youtubeUrl.substr(0, 23));
+        // console.log('url youtube: ', youtubeUrl);
+        // console.log('substringa test ', youtubeUrl.substr(0,23));
         //solo se si tratta di un link di youtube..
         if (youtubeUrl.substr(0, 23) == 'https://www.youtube.com') {
             //estrazione
             var videoId = youtubeUrl.match('d\\/(\\w+)\\?rel=\\d+');
-            console.log('id estratto: ', videoId);
-            console.log('url thumbnail: ', 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg');
+            // console.log('id estratto: ', videoId);
+            // console.log('url thumbnail: ', 'https://img.youtube.com/vi/'+videoId+'/hqdefault.jpg');
             if (videoId == null) {
-                console.log('videoId is null');
+                // console.log('videoId is null');
                 return 'assets/imgs/no-thumb.png';
             }
             else {
-                console.log('videoId is NOT null');
+                // console.log('videoId is NOT null');
                 return 'https://img.youtube.com/vi/' + videoId[1] + '/hqdefault.jpg';
             }
         }
         else {
-            console.log('Non un link di youtube!!');
+            // console.log('Non un link di youtube!!');
             return 'assets/imgs/no-thumb.png';
         }
+    };
+    //Formatta date da SECONDI a YYYY-MM-DD
+    ToolsProvider.prototype.formatDate = function (date) {
+        var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        return [year, month, day].join('-');
     };
     ToolsProvider = __decorate([
         Injectable(),
         __metadata("design:paramtypes", [HttpClient,
-            SettingsProvider,
             PhotoViewer])
     ], ToolsProvider);
     return ToolsProvider;

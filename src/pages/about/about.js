@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { HttpProvider } from "../../providers/http/http";
 /**
  * Generated class for the AboutPage page.
  *
@@ -17,26 +16,19 @@ import { HttpProvider } from "../../providers/http/http";
  * Ionic pages and navigation.
  */
 var AboutPage = (function () {
-    function AboutPage(navCtrl, navParams, HttpProvider) {
+    function AboutPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.HttpProvider = HttpProvider;
         this.titolo = "";
+        console.log("AboutPage loaded");
     }
-    AboutPage.prototype.getFAQdata = function () {
-        var _this = this;
-        this.HttpProvider.getFAQdata().subscribe(function (data) {
-            _this.FAQdata = data;
-        });
-    };
     AboutPage = __decorate([
         Component({
             selector: 'page-about',
             templateUrl: 'about.html',
         }),
         __metadata("design:paramtypes", [NavController,
-            NavParams,
-            HttpProvider])
+            NavParams])
     ], AboutPage);
     return AboutPage;
 }());

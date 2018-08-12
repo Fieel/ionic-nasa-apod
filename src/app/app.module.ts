@@ -68,7 +68,7 @@ import { ListComponent } from "../components/list/list";
         HttpClientModule,
         IonicImageLoader.forRoot(),
         IonicStorageModule.forRoot(),
-        CacheModule.forRoot()
+        CacheModule.forRoot({ keyPrefix: 'APICallsCacher' })
     ],
     bootstrap: [IonicApp],
     entryComponents: [

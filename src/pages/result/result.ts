@@ -31,8 +31,7 @@ export class ResultPage {
     constructor(
         private navParams: NavParams,
                 private HttpProvider: HttpProvider,
-                private loading: LoadingProvider,
-                private  settings: SettingsProvider
+                private settings: SettingsProvider
     ) {
 
         this.pageTitle = "Result";
@@ -41,10 +40,8 @@ export class ResultPage {
 
         this.data = {};
 
-        loading.showLoading();
         this.getAPOD(this.date);
         this.dataLength = Object.keys(this.data).length;
-        loading.hideLoading();
 
         console.log("ResultPage loaded");
     }

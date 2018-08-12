@@ -31,6 +31,7 @@ var FavouritesPage = (function () {
         this.download = download;
         this.tools = tools;
         this.titolo = "Favourites";
+        console.log("FavouritesPage loaded");
     }
     FavouritesPage.prototype.changePage = function (date) {
         console.log('apertura pagina result...');

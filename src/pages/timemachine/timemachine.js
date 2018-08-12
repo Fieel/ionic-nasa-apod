@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ResultPage } from "../result/result";
-import { HttpProvider } from "../../providers/http/http";
+import { ToolsProvider } from "../../providers/tools/tools";
 /**
  * Generated class for the TimemachinePage page.
  *
@@ -18,11 +18,12 @@ import { HttpProvider } from "../../providers/http/http";
  * Ionic pages and navigation.
  */
 var TimemachinePage = (function () {
-    function TimemachinePage(navCtrl, httpProvider) {
+    function TimemachinePage(navCtrl, tools) {
         this.navCtrl = navCtrl;
-        this.httpProvider = httpProvider;
+        this.tools = tools;
         this.title = "Time Machine";
         this.setTodayDate();
+        console.log("TimeMachinePage loaded");
     }
     TimemachinePage.prototype.changePage = function () {
         console.log('CLICK cambio pagina con data ', this.date);
@@ -37,8 +38,8 @@ var TimemachinePage = (function () {
     //in caso non venisse settata dall'utente passo la data di oggi
     TimemachinePage.prototype.setTodayDate = function () {
         this.date = new Date().getTime();
-        this.stringDate = this.httpProvider.formatDate(this.date);
-        this.date = this.httpProvider.formatDate(this.date);
+        this.stringDate = this.tools.formatDate(this.date);
+        this.date = this.tools.formatDate(this.date);
     };
     TimemachinePage = __decorate([
         Component({
@@ -46,7 +47,7 @@ var TimemachinePage = (function () {
             templateUrl: 'timemachine.html',
         }),
         __metadata("design:paramtypes", [NavController,
-            HttpProvider])
+            ToolsProvider])
     ], TimemachinePage);
     return TimemachinePage;
 }());

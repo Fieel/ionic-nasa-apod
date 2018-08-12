@@ -17,17 +17,18 @@ import { SettingsProvider } from "../../providers/settings/settings";
  * Ionic pages and navigation.
  */
 var SettingsPage = (function () {
-    function SettingsPage(navCtrl, navParams, settingsProvider) {
+    function SettingsPage(navCtrl, navParams, settings) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.settingsProvider = settingsProvider;
+        this.settings = settings;
         this.titolo = "";
+        console.log("SettingsPage loaded");
     }
     SettingsPage.prototype.clearStorage = function () {
-        this.settingsProvider.clearStorage();
+        this.settings.clearStorage();
     };
     SettingsPage.prototype.ionViewWillLeave = function () {
-        this.settingsProvider.updateStorageData();
+        this.settings.updateStorageData();
     };
     SettingsPage.prototype.ionViewDidLoad = function () {
     };

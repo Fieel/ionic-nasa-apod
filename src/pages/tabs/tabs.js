@@ -14,6 +14,7 @@ var TabsPage = (function () {
     function TabsPage() {
         this.tab1Root = HomePage;
         this.tab2Root = WeekPage;
+        console.log("TabsPage loaded");
     }
     TabsPage = __decorate([
         Component({

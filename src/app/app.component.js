@@ -13,6 +13,7 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ImageLoaderConfig } from "ionic-image-loader";
+import { CacheService } from "ionic-cache";
 //pagine
 import { TabsPage } from '../pages/tabs/tabs';
 import { AboutPage } from "../pages/about/about";
@@ -22,14 +23,22 @@ import { FavouritesPage } from "../pages/favourites/favourites";
 //provider
 import { SettingsProvider } from "../providers/settings/settings";
 var MyApp = (function () {
-    function MyApp(platform, statusBar, splashScreen, imageLoaderConfig, settings) {
+    function MyApp(platform, statusBar, splashScreen, imageLoaderConfig, settings, cache) {
         var _this = this;
         this.imageLoaderConfig = imageLoaderConfig;
         this.settings = settings;
         this.rootPage = TabsPage;
+        //osservabile da fetchare che aggiorna il tema in uso
+        // https://www.youtube.com/watch?v=GgYfGHG7bQc
+        this.settings.getActiveTheme().subscribe(function (val) { return _this.selectedTheme = val; });
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
+            //CACHING
+            // Set TTL to 12h
+            cache.setDefaultTTL(60 * 60 * 12);
+            // Keep our cached results when device is offline!
+            cache.setOfflineInvalidate(false);
             //carico le settings dallo storage
             _this.settings.fetchStorageData();
             statusBar.styleDefault();
@@ -63,7 +72,8 @@ var MyApp = (function () {
             StatusBar,
             SplashScreen,
             ImageLoaderConfig,
-            SettingsProvider])
+            SettingsProvider,
+            CacheService])
     ], MyApp);
     return MyApp;
 }());

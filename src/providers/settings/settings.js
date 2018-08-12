@@ -10,11 +10,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 var SettingsProvider = (function () {
     function SettingsProvider(storage, alertCtrl) {
+        var _this = this;
         this.storage = storage;
         this.alertCtrl = alertCtrl;
+        //creo un osservabile che contiene il tema attuale
+        this.theme = new BehaviorSubject('dark-theme');
+        this.getActiveTheme().subscribe(function (val) { return _this.selectedTheme = val; });
     }
+    //
+    // THEMING
+    //
+    SettingsProvider.prototype.setActiveTheme = function () {
+        console.log('setActiveTheme ative ');
+        if (this.selectedTheme === 'light-theme') {
+            this.theme.next('dark-theme');
+            console.log('light->dark');
+        }
+        else {
+            this.theme.next('light-theme');
+            console.log('dark->light');
+        }
+        console.log('tema corrente: ', this.selectedTheme);
+    };
+    SettingsProvider.prototype.getActiveTheme = function () {
+        return this.theme.asObservable();
+    };
     /* STORAGE */
     //ripulisce tutti i dati salvati nella memoria del telefono
     //preferiti, settings varie etc...
@@ -124,6 +147,28 @@ var SettingsProvider = (function () {
         this.storage.set('favouritesLayout', this.favouritesLayout);
     };
     /* PREFERITI */
+    //GESTIONE ASYNC DATI/VIEW
+    //ritorna vero o falso in base al fatto che i dati si sono già caricati,
+    //serve alle view per non crashare siccome si caricano più in fretta di quanto
+    //si inizializzino le variabili lol.
+    SettingsProvider.prototype.checkIfFavouritesAreAvailable = function () {
+        if (this.favourites === undefined) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    SettingsProvider.prototype.checkIfAlreadyFavourite = function (date) {
+        console.log('Controllo preferiti...');
+        for (var _i = 0, _a = this.favourites; _i < _a.length; _i++) {
+            var i = _a[_i];
+            if (i.date == date) {
+                return true;
+            }
+        }
+        return false;
+    };
     //Aggiunge all'array dei preferiti una nuova voce
     SettingsProvider.prototype.addToFavourites = function (data) {
         //FUNZIONA! Aggiungere il controllo se è già stato aggiunto ai preferiti

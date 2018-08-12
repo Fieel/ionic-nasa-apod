@@ -12,6 +12,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/Rx';
+import { CacheService } from 'ionic-cache';
 /*
   Generated class for the HttpProvider provider.
 
@@ -19,12 +20,13 @@ import 'rxjs/Rx';
   and Angular DI.
 */
 var HttpProvider = (function () {
-    function HttpProvider(http) {
+    function HttpProvider(http, cache) {
         this.http = http;
+        this.cache = cache;
         //inizializzo
-        this.url = '';
         this.data = {};
         this.APIkey = 'uoEtZqnZxnmcYLuG57SfvvYDu1c5g5kPtJfOSR3S';
+        this.url = 'https://api.nasa.gov/planetary/apod?api_key=' + this.APIkey;
     }
     //ritorna i dati APOD del giorno attuale e basta
     HttpProvider.prototype.getAPOD = function () {
@@ -32,36 +34,15 @@ var HttpProvider = (function () {
             .map(function (res) { return res; })
             .catch(function (error) { return Observable.throw(error.json() || 'Server Error'); });
     };
-    //ritorna i dati APOD di una data specifica
-    HttpProvider.prototype.getSpecificAPODnoConvert = function (date) {
+    //ritorna i dati APOD di una data specifica già passata convertita
+    HttpProvider.prototype.GetOneDayAPOD = function (date) {
         return this.http.get('https://api.nasa.gov/planetary/apod?api_key=' + this.APIkey + '&date=' + date)
             .map(function (res) { return res; })
             .catch(function (error) { return Observable.throw(error.json() || 'Server Error'); });
     };
-    //ritorna i dati APOD di una data specifica, usando il convertitore per accettare
-    //in formato di secondi
-    HttpProvider.prototype.getSpecificAPOD = function (date) {
-        return this.http.get('https://api.nasa.gov/planetary/apod?api_key=' + this.APIkey + '&date=' + this.formatDate(date))
-            .map(function (res) { return res; })
-            .catch(function (error) { return Observable.throw(error.json() || 'Server Error'); });
-    };
-    HttpProvider.prototype.getFAQdata = function () {
-        return this.http.get('assets/FAQ.json')
-            .map(function (res) { return res; });
-    };
-    //Prende un numero che rappresenta i secondi e lo converte
-    //nel formato YYYY-MM-DD che usa l'API dell'APOD per filtrare il giorno
-    HttpProvider.prototype.formatDate = function (date) {
-        var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
-        return [year, month, day].join('-');
-    };
     HttpProvider = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [HttpClient])
+        __metadata("design:paramtypes", [HttpClient, CacheService])
     ], HttpProvider);
     return HttpProvider;
 }());

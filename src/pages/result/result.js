@@ -11,11 +11,7 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { HttpProvider } from "../../providers/http/http";
 import { LoadingProvider } from "../../providers/loading/loading";
-import { PhotoViewer } from "@ionic-native/photo-viewer";
-import { DomSanitizer } from "@angular/platform-browser";
 import { SettingsProvider } from "../../providers/settings/settings";
-import { DownloadProvider } from "../../providers/download/download";
-import { ToolsProvider } from "../../providers/tools/tools";
 /**
  * Generated class for the ResultPage page.
  *
@@ -23,15 +19,11 @@ import { ToolsProvider } from "../../providers/tools/tools";
  * Ionic pages and navigation.
  */
 var ResultPage = (function () {
-    function ResultPage(navParams, HttpProvider, loading, photoViewer, sanitizer, settings, download, tools) {
+    function ResultPage(navParams, HttpProvider, loading, settings) {
         this.navParams = navParams;
         this.HttpProvider = HttpProvider;
         this.loading = loading;
-        this.photoViewer = photoViewer;
-        this.sanitizer = sanitizer;
         this.settings = settings;
-        this.download = download;
-        this.tools = tools;
         this.pageTitle = "Result";
         this.date = navParams.get('date');
         console.log('data input: ', this.date);
@@ -40,17 +32,18 @@ var ResultPage = (function () {
         this.getAPOD(this.date);
         this.dataLength = Object.keys(this.data).length;
         loading.hideLoading();
+        console.log("ResultPage loaded");
     }
     //chiamato durante un refresh
-    ResultPage.prototype.doRefresh = function (refresher) {
-        console.log('Aggiornamento pagina!');
-        this.getAPOD(this.date);
-        console.log('Fine aggiornamento pagina!');
-        refresher.complete();
-    };
+    // doRefresh(refresher) {
+    //     console.log('Aggiornamento pagina!');
+    //     this.getAPOD(this.date);
+    //     console.log('Fine aggiornamento pagina!');
+    //     refresher.complete();
+    // }
     ResultPage.prototype.getAPOD = function (date) {
         var _this = this;
-        this.HttpProvider.getSpecificAPODnoConvert(date)
+        this.HttpProvider.GetOneDayAPOD(date)
             .subscribe(function (data) {
             _this.data = data;
             _this.dataLength = Object.keys(_this.data).length;
@@ -64,11 +57,7 @@ var ResultPage = (function () {
         __metadata("design:paramtypes", [NavParams,
             HttpProvider,
             LoadingProvider,
-            PhotoViewer,
-            DomSanitizer,
-            SettingsProvider,
-            DownloadProvider,
-            ToolsProvider])
+            SettingsProvider])
     ], ResultPage);
     return ResultPage;
 }());

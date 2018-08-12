@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 //componenti importanti
 import { Component } from '@angular/core';
-import { PhotoViewer } from "@ionic-native/photo-viewer";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NavController } from 'ionic-angular';
 //miei provider
@@ -18,7 +17,6 @@ import { LoadingProvider } from "../../providers/loading/loading";
 import { SettingsProvider } from "../../providers/settings/settings";
 import { ToolsProvider } from "../../providers/tools/tools";
 import { DownloadProvider } from "../../providers/download/download";
-import { ResultPage } from "../result/result";
 /**
  * Generated class for the WeekPage page.
  *
@@ -26,20 +24,19 @@ import { ResultPage } from "../result/result";
  * Ionic pages and navigation.
  */
 var WeekPage = (function () {
-    function WeekPage(HttpProvider, loading, photoViewer, sanitizer, settings, download, tools, navCtrl) {
+    function WeekPage(HttpProvider, loading, tools, sanitizer, download, navCtrl, settings) {
         this.HttpProvider = HttpProvider;
         this.loading = loading;
-        this.photoViewer = photoViewer;
-        this.sanitizer = sanitizer;
-        this.settings = settings;
-        this.download = download;
         this.tools = tools;
+        this.sanitizer = sanitizer;
+        this.download = download;
         this.navCtrl = navCtrl;
-        //dati APOD
+        this.settings = settings;
         this.orderedData = [];
-        this.data = []; // use this in your html, as you are already using
-        //dati statici
-        this.titolo = 'Last ' + this.settings.daysInThePast + ' days';
+        //titolo pagina
+        // this.titolo = 'Last '+ this.settings.daysInThePast +' days';
+        this.titolo = 'Past';
+        console.log("WeekPage loaded");
         //setto le variabili con le date
         this.todayDate = new Date();
         this.pastDates = [];
@@ -54,13 +51,6 @@ var WeekPage = (function () {
     //in caso sono cambiati preferiti/daysinthepast...
     WeekPage.prototype.ionViewWillEnter = function () {
         this.settings.fetchStorageData();
-    };
-    //chiamato durante un refresh
-    WeekPage.prototype.doRefresh = function (refresher) {
-        console.log('Aggiornamento pagina!');
-        this.getAPOD(this.settings.daysInThePast, true);
-        console.log('Fine aggiornamento pagina!');
-        refresher.complete();
     };
     WeekPage.prototype.getAPOD = function (days, refresh) {
         var _this = this;
@@ -80,7 +70,7 @@ var WeekPage = (function () {
             this.pastDates.push(this.todayDate.setDate(this.todayDate.getDate() - 1));
         }
         var _loop_1 = function ($i) {
-            this_1.HttpProvider.getSpecificAPOD(this_1.pastDates[$i])
+            this_1.HttpProvider.GetOneDayAPOD(this_1.tools.formatDate(this_1.pastDates[$i]))
                 .subscribe(function (data) {
                 _this.orderedData[$i] = data;
                 _this.data = _this.orderedData.filter(function (item) { return item; });
@@ -93,9 +83,12 @@ var WeekPage = (function () {
         }
         console.log('date in the past: ', this.pastDates);
     };
-    WeekPage.prototype.changePage = function (date) {
-        console.log('apertura pagina result...');
-        this.navCtrl.push(ResultPage, { date: date });
+    //chiamato durante un refresh
+    WeekPage.prototype.doRefresh = function (refresher) {
+        console.log('Aggiornamento pagina!');
+        this.getAPOD(this.settings.daysInThePast, true);
+        console.log('Fine aggiornamento pagina!');
+        refresher.complete();
     };
     WeekPage = __decorate([
         Component({
@@ -104,12 +97,11 @@ var WeekPage = (function () {
         }),
         __metadata("design:paramtypes", [HttpProvider,
             LoadingProvider,
-            PhotoViewer,
-            DomSanitizer,
-            SettingsProvider,
-            DownloadProvider,
             ToolsProvider,
-            NavController])
+            DomSanitizer,
+            DownloadProvider,
+            NavController,
+            SettingsProvider])
     ], WeekPage);
     return WeekPage;
 }());

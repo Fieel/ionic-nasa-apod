@@ -10,27 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 //componenti nativi ionic/angular
 import { Component } from '@angular/core';
 import { SplashScreen } from "@ionic-native/splash-screen";
-import { DomSanitizer } from "@angular/platform-browser";
+import { CacheService } from 'ionic-cache';
 //miei provider
 import { HttpProvider } from "../../providers/http/http"; //per fare richieste http
-import { DownloadProvider } from "../../providers/download/download";
-import { ToolsProvider } from "../../providers/tools/tools";
 import { SettingsProvider } from "../../providers/settings/settings";
 //per usare i pannellini di loading
 var HomePage = (function () {
     function HomePage(splashscreen, //x gestire lo splashscreen
         HttpProvider, //x richieste apod
-        sanitizer, //x iframe youtube nel caso di video
-        download, //x gestire i download
-        tools, //x gestire azioni varie
-        settings //x gestire variabili globali
-    ) {
+        settings, //x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
+        cache) {
         this.splashscreen = splashscreen;
         this.HttpProvider = HttpProvider;
-        this.sanitizer = sanitizer;
-        this.download = download;
-        this.tools = tools;
-        this.settings = settings; //x gestire variabili globali
+        this.settings = settings;
+        this.cache = cache;
         //1. inizializzo variabili
         this.titolo = "Today";
         this.data = {};
@@ -39,6 +32,7 @@ var HomePage = (function () {
         this.dataLength = Object.keys(this.data).length;
         //3. nascondo lo splashscreen
         this.splashscreen.hide();
+        console.log("HomePage loaded");
     }
     //chiamato durante un refresh
     HomePage.prototype.doRefresh = function (refresher) {
@@ -51,11 +45,13 @@ var HomePage = (function () {
     HomePage.prototype.getAPOD = function () {
         var _this = this;
         console.log('Caricamento dati APOD TODAY..');
-        this.HttpProvider.getAPOD()
+        var req = this.HttpProvider.getAPOD()
             .subscribe(function (data) {
             _this.data = data;
             _this.dataLength = Object.keys(_this.data).length;
         });
+        //caching experiment
+        this.apod = this.cache.loadFromObservable(this.HttpProvider.url, req);
     };
     HomePage = __decorate([
         Component({
@@ -64,11 +60,8 @@ var HomePage = (function () {
         }),
         __metadata("design:paramtypes", [SplashScreen,
             HttpProvider,
-            DomSanitizer,
-            DownloadProvider,
-            ToolsProvider,
-            SettingsProvider //x gestire variabili globali
-        ])
+            SettingsProvider,
+            CacheService])
     ], HomePage);
     return HomePage;
 }());

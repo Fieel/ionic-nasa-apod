@@ -38,7 +38,6 @@ export class HomePage {
         this.splashscreen.hide();
 
         console.log("HomePage loaded");
-
     }
 
     //chiamato durante un refresh

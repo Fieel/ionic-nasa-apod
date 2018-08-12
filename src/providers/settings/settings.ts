@@ -13,43 +13,62 @@ export class SettingsProvider {
     public resultLayout: string;
     public favouritesLayout: string;
 
+    //usata per switchare tema dalla pagina settings
+    public activeTheme: string;
+
    //osservabile per cambiare tema dinamiacmente
    // https://www.youtube.com/watch?v=GgYfGHG7bQc
     public theme: BehaviorSubject<string>;
 
-    selectedTheme: string;
 
     constructor(
         private storage: Storage,
         private alertCtrl: AlertController
     ) {
         //creo un osservabile che contiene il tema attuale
-        this.theme = new BehaviorSubject('dark-theme');
-        this.getActiveTheme().subscribe(val => this.selectedTheme = val);
+        //gli do la variabile contenente il tema di default
+        this.theme = new BehaviorSubject('loading');
+        this.fetchTheme();
+        //settare la variabile activeTheme uguale al tema attivo cosi da usarla in
+        //setAtiveTheme per alternare in base al tema che é attivo
+        this.getActiveTheme().subscribe(val => this.activeTheme = val);
     }
 
-    //
-    // THEMING
-    //
 
+    /* THEMING */
+
+    //chiamata nei settings per cambiare tema
     setActiveTheme(){
         console.log('setActiveTheme ative ');
-            if (this.selectedTheme === 'light-theme'){
+            if (this.activeTheme === 'light-theme'){
                 this.theme.next('dark-theme');
                 console.log('light->dark');
             } else {
                 this.theme.next('light-theme');
                 console.log('dark->light');
             }
-
-            console.log('tema corrente: ', this.selectedTheme)
+            console.log('tema corrente: ', this.activeTheme)
     }
 
     getActiveTheme(){
         return this.theme.asObservable();
     }
-    /* STORAGE */
 
+    public fetchTheme(){
+        this.storage.get('theme').then(data=> {
+            if (data) {
+                console.log("theme caricato dallo storage: ", data);
+                this.theme.next(data);
+            } else {
+                console.log('primo avvio, settato dark-theme di default...');
+                this.theme.next('dark-theme');
+            }});
+    }
+
+
+
+
+    /* STORAGE */
 
     //ripulisce tutti i dati salvati nella memoria del telefono
     //preferiti, settings varie etc...
@@ -158,7 +177,12 @@ export class SettingsProvider {
         this.storage.set('weekLayout', this.weekLayout);
         this.storage.set('resultLayout', this.resultLayout);
         this.storage.set('favouritesLayout', this.favouritesLayout);
+        this.storage.set('theme', this.activeTheme);
     }
+
+
+
+
 
     /* PREFERITI */
 
@@ -173,7 +197,6 @@ export class SettingsProvider {
             return true;
         }
     }
-
 
     public checkIfAlreadyFavourite(date): boolean{
         console.log('Controllo preferiti...');
@@ -202,6 +225,7 @@ export class SettingsProvider {
         console.log('Storage ripulito totalmente!');
 
     }
+
     //rimuove dagli array dei preferiti una voce specifica basandosi sulla stringa
     //che rappresenta la data per fare il controllo if.
     public removeFromFavourites(data){
@@ -219,8 +243,10 @@ export class SettingsProvider {
     }
 
 
-    /* SETTINGS VARIE */
 
+
+
+    /* SETTINGS VARIE */
 
     //gestisce la variabile giorniNelPassato aumentandola/diminuendola e salvando
     //il nuovo valore nello storage del telefono.
@@ -269,5 +295,6 @@ export class SettingsProvider {
             }
         }
     }
+
 
 }

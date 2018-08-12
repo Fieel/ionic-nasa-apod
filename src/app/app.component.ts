@@ -52,12 +52,11 @@ export class MyApp {
             // Keep our cached results when device is offline!
             cache.setOfflineInvalidate(false);
 
-
-            //carico le settings dallo storage
-            this.settings.fetchStorageData();
-
             statusBar.styleDefault();
             // splashScreen.hide();
+
+
+            this.settings.fetchStorageData();
         });
     }
 

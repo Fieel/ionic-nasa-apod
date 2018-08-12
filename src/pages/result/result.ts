@@ -47,12 +47,12 @@ export class ResultPage {
     }
 
     //chiamato durante un refresh
-    // doRefresh(refresher) {
-    //     console.log('Aggiornamento pagina!');
-    //     this.getAPOD(this.date);
-    //     console.log('Fine aggiornamento pagina!');
-    //     refresher.complete();
-    // }
+    doRefresh(refresher) {
+        console.log('Aggiornamento pagina!');
+        this.getAPOD(this.date);
+        console.log('Fine aggiornamento pagina!');
+        refresher.complete();
+    }
 
     getAPOD(date){
         this.HttpProvider.GetOneDayAPOD(date)

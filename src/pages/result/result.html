@@ -14,10 +14,10 @@
 
 <ion-content>
 
-    <!-- Refresher -->
-    <!--<ion-refresher (ionRefresh)="doRefresh($event)">-->
-        <!--<ion-refresher-content></ion-refresher-content>-->
-    <!--</ion-refresher>-->
+    <!-- refresher -->
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
     <!-- TEST ONLINE/OFFLINE-->
     <div style="height: 100%;" *ngIf="this.dataLength != 0;else notOnline">

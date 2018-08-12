@@ -1,0 +1,193 @@
+
+$text-light: #6f6f6f;
+$text-medium: #333333;//testo cards
+$text-dark: #6f6f6f;//icone
+$text-lighter: black;
+
+
+$background-top-bar: black;
+$background-lighter: white;
+$background-light: snow ;
+$background-medium: white;
+$background-dark: WhiteSmoke ;
+$background-darker: gainsboro;
+
+$accents: steelblue;
+$accents-secondary: goldenrod;
+
+.light-theme {
+  //siccome gli alert non sono children della classe .dark-theme devo usare
+  //un'operatore speciale che ti ritorna alla root e seleziona l'allert!
+  @at-root ion-alert {
+    .alert-wrapper {
+      background-color: $background-dark !important;
+      .alert-title {
+        color: $text-lighter;
+      }
+      .alert-sub-title {
+        color: $text-light;
+      }
+      .alert-radio-group {
+        border-color: $background-darker;
+        .alert-radio-label {
+          color: $text-light;
+        }
+      }
+    }
+  }
+
+  .select-text {
+    color: $accents;
+  }
+  ion-alert {
+
+  }
+
+  //Generale
+  ion-content {
+    background-color: $background-darker;
+    color: $text-light;
+  }
+  .button {
+    color: white;
+    background-color: $accents;
+  }
+
+  //about
+  page-about {
+    h1.titolo {
+      color: $text-lighter;
+    }
+    .author-intro {
+      color: $text-medium;
+    }
+  }
+
+  //settins page colors
+  page-settings{
+    .titolo{
+      color: $text-lighter;
+    }
+    ion-card{
+      .sottotitolo, .contatore {
+        color: $text-light;
+      }
+      .settings-subtitle {
+        color: $text-lighter;
+      }
+      p {
+        color: $text-light;
+      }
+    }
+  }
+
+
+  //timemachine
+  page-timemachine ion-content h1, page-timemachine ion-content p {
+    color: $text-lighter !important;
+  }
+
+  //menu laterale
+  .menu-inner {
+    background-color: $background-light;
+    ion-item, ion-list > .voce-menu {
+      background-color: $background-light;
+      color: $text-lighter;
+      h1 {
+        color: $text-lighter;
+      }
+    }
+  }
+
+  //bottom menu tab della pagina home e week
+  .tab-button {
+    background-color: $background-dark;
+  }
+  .tab-button[aria-selected=true] .tab-button-icon {
+    color: $accents !important;
+  }
+  .tab-button-text {
+    color: $text-light;
+  }
+  .tab-button-icon {
+    color: $text-light;
+  }
+
+  //colors layout fullscreen
+  .fullscreen-layout-wrapper {
+    .data-wrapper {
+      h3 { //titolo
+        color: white;
+      }
+      p:first-child { //data
+        color: $text-light;
+      }
+      p { //copyright
+        color: $text-light;
+      }
+      .testo {
+        color: $text-light;
+      }
+      .icons > span {
+        color: $text-light;
+        span > ion-icon[name=star] {
+          color: $accents-secondary;
+        }
+      }
+    }
+  }
+
+  //card colors
+  ion-card {
+    background-color: $background-light;
+    ion-item {
+      background-color: $background-light !important;
+    }
+    //color icone
+    .icons > span {
+      color: $text-dark;
+      span > ion-icon[name=star] {
+        color: $accents-secondary;
+      }
+    }
+    .stile-titolo {
+      color: $text-lighter;
+    }
+    .stile-copyright {
+      color: $text-light;
+    }
+    .stile-data {
+      color: $text-light;
+    }
+    .stile-testo {
+      color: $text-medium;
+    }
+  }
+
+  //color lista grid
+  ion-card {
+    .card-title {
+      p {
+        color: white;
+      }
+      .data {
+        color: #9f9f9f;
+      }
+    }
+  }
+
+  //color top header
+  .header .toolbar-title {
+    color: white;
+  }
+  .header .toolbar-background {
+    background-color: $accents;
+  }
+  .bar-button-default{
+
+    color: white;
+  }
+  div > ion-content > div.scroll-content{
+    background-color: $background-light;
+  }
+}

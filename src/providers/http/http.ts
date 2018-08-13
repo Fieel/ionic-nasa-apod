@@ -21,6 +21,7 @@ export class HttpProvider {
 
     apod: Observable<any>;
     apodKeys = 'apod-keys-group';
+    dailyTtl = 60 * 60 * 12;//ttl di 12 ore per le richieste 'today''
 
     constructor(public http: HttpClient, public cache: CacheService) {
         //inizializzo
@@ -30,13 +31,19 @@ export class HttpProvider {
     }
 
     //ritorna i dati APOD del giorno attuale e basta
-    getAPOD() {
+    getAPOD(reloadCache: boolean = false) {
 
-        //caching
         let request = this.http.get(this.url+this.APIkey);
         console.log('New http request: ', request);
 
-        return this.cache.loadFromObservable(this.url+this.APIkey, request, this.apodKeys)
+        if(reloadCache){
+            console.log('Force reloading cache');
+            return this.cache.loadFromDelayedObservable(this.url+this.APIkey, request, this.apodKeys, this.dailyTtl, 'all')
+        }else{
+            return this.cache.loadFromObservable(this.url+this.APIkey, request, this.apodKeys)
+        }
+
+
             //.catch(error => Observable.throw(error.json() || 'Server Error'));
 
         // return this.http.get(this.url+this.APIkey)
@@ -45,12 +52,19 @@ export class HttpProvider {
     }
 
     //ritorna i dati APOD di una data specifica già passata convertita
-    GetOneDayAPOD(date) {
+    GetOneDayAPOD(date, reloadCache: boolean = false) {
 
         let request = this.http.get(this.url+this.APIkey+'&date='+date);
         console.log('New speific http request: ', date, request);
 
-        return this.cache.loadFromObservable(this.url+this.APIkey+'&date='+date, request, this.apodKeys)
+        if(reloadCache){
+            console.log('Force reloading cache');
+            return this.cache.loadFromDelayedObservable(this.url+this.APIkey+'&date='+date, request, this.apodKeys, undefined, 'all');
+        }else{
+            return this.cache.loadFromObservable(this.url+this.APIkey+'&date='+date, request, this.apodKeys);
+        }
+
+
             //.catch(error => Observable.throw(error.json() || 'Server Error'));
 
 

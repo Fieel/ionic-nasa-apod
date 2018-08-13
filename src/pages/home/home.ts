@@ -43,15 +43,15 @@ export class HomePage {
     //chiamato durante un refresh
     doRefresh(refresher) {
         console.log('Aggiornamento pagina!');
-        this.getAPOD();
+        this.getAPOD(true);
         console.log('Fine aggiornamento pagina!');
         refresher.complete();
     }
 
     //chiamata all'api
-    getAPOD(){
+    getAPOD(reloadCache: boolean = false){
         console.log('Caricamento dati APOD TODAY..');
-        this.HttpProvider.getAPOD()
+        this.HttpProvider.getAPOD(reloadCache)
             .subscribe(data => {
                 this.data = data;
                 this.dataLength = Object.keys(this.data).length;

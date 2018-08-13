@@ -38,7 +38,7 @@ export class MyApp {
                 private settings: SettingsProvider,
                 cache: CacheService) {
 
-        //osservabile da fetchare che aggiorna il tema in uso
+        // osservabile da fetchare che aggiorna il tema in uso perennemente
         // https://www.youtube.com/watch?v=GgYfGHG7bQc
         this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
 
@@ -47,9 +47,9 @@ export class MyApp {
             // Here you can do any higher level native things you might need.
 
             //CACHING
-            // Set TTL to 12h
-            cache.setDefaultTTL(60 * 60 * 12);
-            // Keep our cached results when device is offline!
+            // Set TTL to 1 week
+            cache.setDefaultTTL(60 * 60 * 24 * 7);
+            // Keep our cached results when device is offline
             cache.setOfflineInvalidate(false);
 
             statusBar.styleDefault();

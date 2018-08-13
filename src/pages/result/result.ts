@@ -49,13 +49,13 @@ export class ResultPage {
     //chiamato durante un refresh
     doRefresh(refresher) {
         console.log('Aggiornamento pagina!');
-        this.getAPOD(this.date);
+        this.getAPOD(this.date, true);
         console.log('Fine aggiornamento pagina!');
         refresher.complete();
     }
 
-    getAPOD(date){
-        this.HttpProvider.GetOneDayAPOD(date)
+    getAPOD(date, reloadCache: boolean = false){
+        this.HttpProvider.GetOneDayAPOD(date, reloadCache)
             .subscribe(data => {
                 this.data = data;
                 this.dataLength = Object.keys(this.data).length;

@@ -137,7 +137,14 @@ $accents-secondary: goldenrod;
   ion-card {
     background-color: $background-light;
     ion-item {
-      background-color: $background-light !important;
+      background-color: $background-light;
+
+      //annulla il merdosissimo effetto che c'era di default e dava
+      //fastidio quando si cambiava il tema.
+      -webkit-transition: none;
+      transition: none;
+
+
     }
     //color icone
     .icons > span {

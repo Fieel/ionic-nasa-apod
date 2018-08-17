@@ -117,7 +117,7 @@ By being logged in in the same Google account and visiting the page **chrome://i
 * [@ionic/storage@2.1.3](https://ionicframework.com/docs/storage/): Save key/data pairs in the device's storage. Used to store all of the app settings, such as chosen page's layout etc.
 * [@angular/platform-browser@5.0.3 DomSanitizer](https://angular.io/api/platform-browser/DomSanitizer): Used to safely load youtube videos in case the API is feeding one (the NASA APOD API occasionally feeds different media types such as YouTube links). Used in all the views which load the API: Home, Week, Result and Favorites.
 * [ImageLoader@5.0.5](https://www.npmjs.com/package/ionic-image-loader): Allows the use of <img-loader> instead of <img> tags. The new tag will check if a given image has already been saved in the device storage before downloading and loads it from the device if positive, otherwise it just downloads the image. Just my first step towards reducing data usage.
-
+* [cordova-plugin-file@8.x](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/): Cordova plugin to access and interact with the filesystem. (save, delete files)
 ## Core Dependencies
 
 * Adb (installed with Android Studio) [link](https://developer.android.com/studio/command-line/adb)

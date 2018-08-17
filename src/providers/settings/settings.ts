@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
 import { BehaviorSubject} from "rxjs/BehaviorSubject";
+import { ImageLoader } from 'ionic-image-loader';
 
 @Injectable()
 export class SettingsProvider {
@@ -23,7 +24,8 @@ export class SettingsProvider {
 
     constructor(
         private storage: Storage,
-        private alertCtrl: AlertController
+        public alertCtrl: AlertController,
+        private imageLoader: ImageLoader
     ) {
         //creo un osservabile che contiene il tema attuale
         //gli do la variabile contenente il tema di default
@@ -49,11 +51,11 @@ export class SettingsProvider {
             }
             console.log('tema corrente: ', this.activeTheme)
     }
-
+    //usato in app.module per costantemente asoltare il tema corrente e appliarne la classe
     getActiveTheme(){
         return this.theme.asObservable();
     }
-
+    //fetcha il tema dallo storage e se non esiste setta il dark-theme di default
     public fetchTheme(){
         this.storage.get('theme').then(data=> {
             if (data) {
@@ -74,12 +76,6 @@ export class SettingsProvider {
     //preferiti, settings varie etc...
     public clearStorage(){
         this.storage.clear().then( data => {
-            let alert = this.alertCtrl.create({
-                title: 'Storage cleared',
-                subTitle: 'All app data has been wiped from the device',
-                buttons: ['Dismiss']
-            });
-            alert.present();
             console.log('Storage cleared!');
         });
     }
@@ -180,6 +176,16 @@ export class SettingsProvider {
         this.storage.set('theme', this.activeTheme);
     }
 
+    public clearImgCache(){
+        this.imageLoader.clearCache();
+        // let alert = this.alertCtrl.create({
+        //     title: 'Img cache deleted',
+        //     subTitle: 'May prevent offline use.',
+        //     buttons: ['Dismiss']
+        // });
+        // alert.present();
+        console.log('ionic-image-loader img cache deleted');
+    }
 
 
 
@@ -215,15 +221,15 @@ export class SettingsProvider {
         //renderizzato del tutto il tasto sulla carta direttamente nella view)?
         console.log("Aggiunto nuovo preferito: ", data);
         this.favourites.push(data);
-        this.storage.set('favourites', this.favourites);
+        this.storage.set('favourites', this.favourites).then( data => {
+            console.log('Storage ripulito totalmente!');
         let alert = this.alertCtrl.create({
             title: data.title,
             subTitle: 'This picture has just been added to your favorites\' collection!',
             buttons: ['Thanks.']
         });
         alert.present();
-        console.log('Storage ripulito totalmente!');
-
+        });
     }
 
     //rimuove dagli array dei preferiti una voce specifica basandosi sulla stringa
@@ -231,8 +237,7 @@ export class SettingsProvider {
     public removeFromFavourites(data){
         //filtra via l'oggetto che come data ha quella passata come parametro.
         this.favourites = this.favourites.filter(item => item.date !== data.date);
-        this.storage.set('favourites', this.favourites);
-
+        this.storage.set('favourites', this.favourites).then( data => {
         console.log('Rimosso dai preferiti: ', data);
         let alert = this.alertCtrl.create({
             title: data.title,
@@ -240,8 +245,16 @@ export class SettingsProvider {
             buttons: ['Ok.']
         });
         alert.present();
+        });
     }
-
+    //svuota this.favourites e anche l'array nello storage
+    public clearFavourites(){
+        //filtro TUTTI gli elementi, rimane un array vuoto
+        this.favourites = this.favourites.filter(x => x !== x);
+        this.storage.set('favourites', this.favourites).then( data => {
+            console.log('Preferiti resettati: ', data);
+        });
+    }
 
 
 
@@ -254,6 +267,7 @@ export class SettingsProvider {
         this.daysInThePast++;
         this.storage.set('daysInThePast', this.daysInThePast);
     }
+
     public decreaseDays(){
         this.daysInThePast--;
         this.storage.set('daysInThePast', this.daysInThePast);

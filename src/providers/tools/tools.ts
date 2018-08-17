@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {PhotoViewer} from "@ionic-native/photo-viewer";
-
+import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class ToolsProvider {
 
     constructor(public http: HttpClient,
-                private photoViewer: PhotoViewer) {
+                private photoViewer: PhotoViewer,
+                private toastCtrl: ToastController) {
+
     }
 
     //apre l'immagine cliccata in fullscreen
@@ -53,5 +55,19 @@ export class ToolsProvider {
         if (day.length < 2) day = '0' + day;
 
         return [year, month, day].join('-');
+    }
+
+    public presentToast(msg: string, duration: number, position: string) {
+        let toast = this.toastCtrl.create({
+            message: msg,
+            duration: duration,
+            position: position
+        });
+
+        toast.onDidDismiss(() => {
+            console.log('Dismissed toast, content:'+msg);
+        });
+
+        toast.present();
     }
 }

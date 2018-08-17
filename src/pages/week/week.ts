@@ -91,7 +91,16 @@ export class WeekPage {
                 .subscribe(data => {
                     this.orderedData[$i] = data;
                     this.data = this.orderedData.filter(item => item);
-                });
+                }
+                // ,error => {
+                //     let alert = this.settings.alertCtrl.create({
+                //         title: 'Error loading the image',
+                //         subTitle: 'Oops, '+error.toString(),
+                //         buttons: ['...']
+                //     });
+                //     alert.present();
+                // }
+                );
         }
         console.log('date in the past: ', this.pastDates);
     }

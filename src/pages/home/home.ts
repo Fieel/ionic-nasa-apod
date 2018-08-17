@@ -52,10 +52,20 @@ export class HomePage {
     getAPOD(reloadCache: boolean = false){
         console.log('Caricamento dati APOD TODAY..');
         this.HttpProvider.getAPOD(reloadCache)
-            .subscribe(data => {
-                this.data = data;
-                this.dataLength = Object.keys(this.data).length;
-            });
+            .subscribe(
+                data => {
+                    this.data = data;
+                    this.dataLength = Object.keys(this.data).length;
+                }
+            //     ,error => {
+            //         let alert = this.settings.alertCtrl.create({
+            //             title: 'Error loading the image',
+            //             subTitle: 'Oops, '+error.toString(),
+            //             buttons: ['...']
+            //         });
+            //         alert.present();
+            // }
+            );
     }
 
 

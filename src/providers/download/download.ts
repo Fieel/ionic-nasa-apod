@@ -13,6 +13,8 @@ export class DownloadProvider {
     downloadingDate: string;
     progress: number;
 
+    freeSpace: string;
+
     constructor(private http: HttpClient,
                 private file: File,
                 public alertCtrl: AlertController) {
@@ -20,6 +22,9 @@ export class DownloadProvider {
     }
 
     downloadImage(pictureUrl, name, date){
+
+        console.log('applicationDirectory, dataDirectory, cacheDirectory',this.file.applicationDirectory, this.file.dataDirectory, this.file.cacheDirectory);
+
 
         //questa variabile mi permette tramite un ngIf di mostrare solo una barra di
         //progresso download alla volta e non tutte assieme.
@@ -72,7 +77,7 @@ export class DownloadProvider {
                                 console.log('download.ts, tmp.jpg: errore durante il salvataggio nella cartella Images/Pictures.!!' + error);
                                 let alert = alertCtrl.create({
                                     title: 'Download error :(.',
-                                    subTitle: 'For some reason we couldn\'t save the picture in your gallery. Please try again!',
+                                    subTitle: 'We couldn\'t save the picture in your gallery. Please try again!',
                                     buttons: ['Damn!']
                                 });
                                 alert.present();
@@ -81,7 +86,7 @@ export class DownloadProvider {
                         (err) => {
                             let alert = this.alertCtrl.create({
                                 title: 'Couldn\'t save the picture D:.',
-                                subTitle: 'For some reason we couldn\'t save the picture in your gallery. Please try again!',
+                                subTitle: 'We couldn\'t save the picture in your gallery. Please try again!',
                                 buttons: ['Not again!']
                             });
                             alert.present();
@@ -89,6 +94,76 @@ export class DownloadProvider {
                         });
             }
         });
+    }
+
+    checkCache(){
+
+        this.file.getFreeDiskSpace().then( data => {
+            this.freeSpace = data.toPrecision(1);
+        });
+
+
+
+        // this.file.listDir(this.file.cacheDirectory,'').then((result)=>{
+        //     console.log('files in cache directory: ', result);
+        //
+        // }) ;
+        //
+        // this.file.listDir(this.file.cacheDirectory,'WebView').then((result)=>{
+        //     console.log('files in WebView directory: ', result);
+        // }) ;
+
+        // this.file.listDir(this.file.cacheDirectory,'image-loader-cache').then((result)=>{
+        //     console.log('files in image-loader-cache directory: ', result);
+        // }) ;
+        //
+        // this.file.listDir(this.file.cacheDirectory,'org.chromium.android_webview').then((result)=> {
+        //     console.log('files in org.chromium.android_webview directory: ', result);
+        // });
+    }
+
+    deleteCachedImageFiles(){
+
+        // /cache
+        // per controllare la root della cartella di cache
+        // se ci sono cartelle strane lo vedo
+        this.file.listDir(this.file.cacheDirectory,'').then((result)=>{
+            console.log('files in cache directory: ', result);
+        }) ;
+
+        // cache/org.chromium.android_webview
+        // dove stanno tutte le immagini cachate che pesano un bordello
+        this.file.listDir(this.file.cacheDirectory,'org.chromium.android_webview').then((result)=>{
+
+            console.log('files in org.chromium.android_webview directory: ', result);
+
+            console.log('Started deleting files from cache folder!');
+
+            for(let file of result){
+
+                if(file.isFile == true){
+
+                    this.file.removeFile(this.file.cacheDirectory+'/org.chromium.android_webview/', file.name).then( data => {
+                        console.log('file removed: ', this.file);
+                        data.fileRemoved.getMetadata(function (metadata) {
+                            let name = data.fileRemoved.name;
+                            let size = metadata.size ;
+                            let fullPath = data.fileRemoved.fullPath;
+                            console.log('Deleted file: ', name, size, fullPath) ;
+                            console.log('Name: ' + name + ' / Size: ' + size) ;
+                        }) ;
+                    }).catch( error => {
+                        file.getMetadata(function (metadata) {
+                            let name = file.name ;
+                            let size = metadata.size ;
+                            console.log('Error deleting file from cache folder: ', error) ;
+                            console.log('Name: ' + name + ' / Size: ' + size) ;
+                        }) ;
+                    });
+
+                }
+            }
+        }) ;
     }
 
     //metodo che usavo prima ma falliva spesso i download, usando

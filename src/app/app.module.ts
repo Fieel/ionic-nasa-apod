@@ -5,6 +5,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { File } from '@ionic-native/file';//usato per i download
 import { IonicStorageModule } from '@ionic/storage';//usato per salvare key/data pairs nello storage del telefono
+import { Base64 } from "@ionic-native/base64";
+
 
 //pagine
 import { HomePage } from '../pages/home/home';
@@ -29,16 +31,14 @@ import { ToolsProvider } from '../providers/tools/tools';
 
 //importati da me per offrire funzionalità a più pagine
 import { HttpClientModule } from "@angular/common/http";//importato nell'HttpProvider per far chiamate http
+//https://ionicframework.com/docs/native/photo-viewer/
 import { PhotoViewer } from '@ionic-native/photo-viewer';//importato nelle pagine per aprire immagini a schermo intero
-    //https://ionicframework.com/docs/native/photo-viewer/
+//https://ionicframework.com/docs/native/date-picker/
 import { DatePicker } from '@ionic-native/date-picker';
-    //https://ionicframework.com/docs/native/date-picker/
+//https://www.npmjs.com/package/ionic-image-loader
 import { IonicImageLoader } from 'ionic-image-loader';
-    //https://www.npmjs.com/package/ionic-image-loader
-// import { FileOpener } from '@ionic-native/file-opener';
-    //https://ionicframework.com/docs/native/file-opener/
+//https://www.npmjs.com/package/ionic-cache
 import { CacheModule } from 'ionic-cache';
-    //https://www.npmjs.com/package/ionic-cache
 
 //componenti custom creati da me
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
@@ -93,9 +93,8 @@ import { ListComponent } from "../components/list/list";
         File,
         SettingsProvider,
         DownloadProvider,
-    ToolsProvider,
-    ToolsProvider,
-        // FileOpener
+        ToolsProvider,
+        Base64
     ]
 })
 export class AppModule {}

@@ -13,9 +13,12 @@
     <progress-bar *ngIf="data.date == this.download.downloadingDate" [progress]="this.download.progress"></progress-bar>
     <div class="icons">
       <!-- DOWNLOAD -->
-      <span *ngIf="data.media_type == 'image'" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)">
-                            <ion-icon name="download"></ion-icon>
+      <span *ngIf="data.media_type == 'image'" >
+                            <ion-icon name="download" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)"></ion-icon>
                         </span>
+
+
+
       <!-- PREFERITI -->
       <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
                             <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
@@ -28,6 +31,12 @@
                                 </span>
                             </ng-template>
                         </span>
+
+        <!-- SET AS WALLPAPER -->
+        <span *ngIf="data.media_type == 'image'" >
+                    <ion-icon name="image" (click)="this.download.downloadImage(data.hdurl, data.title, data.date, true)"></ion-icon>
+        </span>
+
       <!-- LINK DIRETTO -->
       <span *ngIf="data.media_type == 'video'">
                             <a class="external-link" href="{{data.url}}">
@@ -79,7 +88,11 @@
                                     <ion-icon (click)="this.settings.addToFavourites(data)" name="add-circle"></ion-icon>
                                 </span>
                             </ng-template>
-                        </span>
+       </span>
+
+
+
+
       <!-- LINK DIRETTO -->
       <span *ngIf="data.media_type == 'video'">
                             <a class="external-link" href="{{data.url}}">

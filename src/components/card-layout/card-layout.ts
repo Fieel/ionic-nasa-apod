@@ -4,6 +4,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {ToolsProvider} from "../../providers/tools/tools";
 import {SettingsProvider} from "../../providers/settings/settings";
 
+declare var window;
 /**
  * Generated class for the CardLayoutComponent component.
  *
@@ -18,7 +19,6 @@ export class CardLayoutComponent {
 
   @Input('data') data;
 
-
   constructor(
       private sanitizer: DomSanitizer,//x iframe youtube nel caso di video | USATO DIRETTAMENTE NELLA VIEW!
       private download: DownloadProvider,//x gestire i download | USATO DIRETTAMENTE NELLA VIEW!
@@ -27,5 +27,4 @@ export class CardLayoutComponent {
      ) {
     console.log('CardLayoutComponent loaded: ', this.data);
   }
-
 }

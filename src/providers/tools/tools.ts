@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import {PhotoViewer} from "@ionic-native/photo-viewer";
 import { ToastController } from 'ionic-angular';
 
+declare var window;
+
 @Injectable()
 export class ToolsProvider {
 
@@ -10,6 +12,31 @@ export class ToolsProvider {
                 private photoViewer: PhotoViewer,
                 private toastCtrl: ToastController) {
 
+    }
+
+    public setWallpaper(url){
+
+        // let xhr = new XMLHttpRequest(); // create new request
+        // xhr.responseType = "arraybuffer"; // tell our reuqest that we want an arraybuffer
+        // xhr.onload = function() // gets executed when there is data (response)
+        // {
+        //     console.log('onload wallpaper');
+        //     let array = new Uint8Array(xhr.response);
+        //     let raw = ""; // variable for storing raw image data
+        //     let chunk = 5000;
+        //     for (let i = 0; i < array.length; i += chunk)
+        //     {
+        //         let subArray = array.subarray(i, i + chunk);
+        //         raw += String.fromCharCode.apply(null, subArray);
+        //     }
+        //     let base64 = btoa(raw); // convert byte toBase64
+        //     window.plugins.wallpaper.setImageBase64(base64); // set image as wallpaper
+        // };
+        // xhr.open("GET", url, true); // your URL here
+        // xhr.send(); // send request
+
+        // (<any>window).plugins.wallpaper.setImage(url);
+        //cordova.plugins.wallpaper.setImage();
     }
 
     //apre l'immagine cliccata in fullscreen
@@ -57,7 +84,7 @@ export class ToolsProvider {
         return [year, month, day].join('-');
     }
 
-    public presentToast(msg: string, duration: number, position: string) {
+    public presentToast(msg: string, duration: number, position: string = 'bottom') {
         let toast = this.toastCtrl.create({
             message: msg,
             duration: duration,

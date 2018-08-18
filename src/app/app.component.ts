@@ -16,8 +16,8 @@ import { FavouritesPage } from "../pages/favourites/favourites";
 //provider
 import {SettingsProvider} from "../providers/settings/settings";
 
-declare var cordova: any;
-declare var imagesaver: any;
+// declare var cordova: any;
+//declare var imagesaver: any;
 declare var window: any;
 
 @Component({

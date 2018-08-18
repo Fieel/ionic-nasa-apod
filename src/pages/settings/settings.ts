@@ -24,7 +24,7 @@ export class SettingsPage {
 
         this.titolo = "";
         console.log("SettingsPage loaded");
-        download.checkCache();
+        // download.checkCache();
     }
 
 

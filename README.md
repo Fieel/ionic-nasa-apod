@@ -61,6 +61,10 @@ You can debug on browser or on a real device, I suggest the latter combined with
  ```bash
 emulator -avd Nexus_5_API_27
  ```
+ 
+```bash
+emulator @Nexus_5_API_27
+ ```
 
 2. Check the list of available emulators
    

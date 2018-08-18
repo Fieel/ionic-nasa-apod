@@ -6,6 +6,11 @@ import { HttpClient,
 import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file';
 import { AlertController } from 'ionic-angular';
+import { Base64 } from '@ionic-native/base64';
+import { ToolsProvider } from "../tools/tools";
+
+declare var window: any;
+declare var cordova: any;
 
 @Injectable()
 export class DownloadProvider {
@@ -17,13 +22,20 @@ export class DownloadProvider {
 
     constructor(private http: HttpClient,
                 private file: File,
-                public alertCtrl: AlertController) {
+                public alertCtrl: AlertController,
+                private base64: Base64,
+                private tools: ToolsProvider) {
         this.progress = 0;
     }
 
-    downloadImage(pictureUrl, name, date){
+    // scarica un'immagine e la salva nelal galleria
+    // se il quarto parametro é true invece che salvare nella galleria setta l'immagine come wallpaper
+    public downloadImage(pictureUrl, name, date, setWallpaper: boolean = false){
 
-        console.log('applicationDirectory, dataDirectory, cacheDirectory',this.file.applicationDirectory, this.file.dataDirectory, this.file.cacheDirectory);
+        console.log('Downloading image', pictureUrl, name, date, setWallpaper);
+
+
+        //console.log('applicationDirectory, dataDirectory, cacheDirectory',this.file.applicationDirectory, this.file.dataDirectory, this.file.cacheDirectory);
 
 
         //questa variabile mi permette tramite un ngIf di mostrare solo una barra di
@@ -57,7 +69,42 @@ export class DownloadProvider {
                     this.file.writeFile(this.file.dataDirectory, "tmp.jpg", event.body, {replace: true}).then(
                         (file) => {
                             console.log('download.ts, tmp.jpg: file tmp salvato con successo', file);
-                            (<any>window).cordova.plugins.imagesaver.saveImageToGallery(this.file.dataDirectory+'tmp.jpg', onSaveImageSuccess, onSaveImageError);
+
+                            // Se la flag é true allora setta il wallpaper invece che salvare nella gallery
+                            if(setWallpaper){
+
+                                // toast che segnala l'imminente cambio di wallpaper
+                                this.tools.presentToast('Setting up new wallpaper...', 5000);
+
+                                console.log('Encodin del wallpaper in base64... ' , this.file.dataDirectory+'tmp.jpg');
+
+                                // Prende il file temporaneo appena scaricato e lo trasforma in una stringa base64
+                                this.base64.encodeFile(this.file.dataDirectory+'tmp.jpg').then((base64File: string) => {
+
+                                    console.log('Conversione in Base64 riuscita: ', base64File);
+                                    // la stringa arriva con un header da tagliar via, che finisce a 'base64, '
+                                    // se non lo si toglie la funzione per settare il wallpaper non funziona
+                                    let slug = base64File.split('base64,').pop();
+                                    console.log('Substr del file base64: ', slug);
+
+                                    // Usa la stringa base64 e la uso per settare il wallpaper
+                                    window.plugins.wallpaper.setImageBase64(slug,
+                                         error => {
+                                            console.log('Errore nella settaggio del wallpaper: ', error);
+                                        });
+
+                                }, (err) => {
+                                    console.log('Errore nella conversione in BAse64',err);
+                                });
+
+
+                            }else{
+                                console.log('Spostando il file temporaneo nella gallery... ');
+                                // sposta il file temporaneo nella galleria
+                                (<any>window).cordova.plugins.imagesaver.saveImageToGallery(this.file.dataDirectory+'tmp.jpg', onSaveImageSuccess, onSaveImageError);
+                            }
+
+
 
 
                             let alertCtrl = this.alertCtrl;
@@ -97,29 +144,9 @@ export class DownloadProvider {
     }
 
     checkCache(){
-
         this.file.getFreeDiskSpace().then( data => {
             this.freeSpace = data.toPrecision(1);
         });
-
-
-
-        // this.file.listDir(this.file.cacheDirectory,'').then((result)=>{
-        //     console.log('files in cache directory: ', result);
-        //
-        // }) ;
-        //
-        // this.file.listDir(this.file.cacheDirectory,'WebView').then((result)=>{
-        //     console.log('files in WebView directory: ', result);
-        // }) ;
-
-        // this.file.listDir(this.file.cacheDirectory,'image-loader-cache').then((result)=>{
-        //     console.log('files in image-loader-cache directory: ', result);
-        // }) ;
-        //
-        // this.file.listDir(this.file.cacheDirectory,'org.chromium.android_webview').then((result)=> {
-        //     console.log('files in org.chromium.android_webview directory: ', result);
-        // });
     }
 
     deleteCachedImageFiles(){

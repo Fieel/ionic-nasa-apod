@@ -36,6 +36,12 @@
                 </ng-template>
             </span>
 
+        <!-- SET AS WALLPAPER -->
+        <span *ngIf="data.media_type == 'image'" (click)="this.download.downloadImage(data.hdurl, data.title, data.date, true)">
+                    <ion-icon name="image"></ion-icon>
+                    </span>
+
+
       <!-- LINK DIRETTO -->
       <span *ngIf="data.media_type == 'video'">
                 <a class="external-link" href="{{data.url}}">

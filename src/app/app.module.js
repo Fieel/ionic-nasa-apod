@@ -11,6 +11,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { File } from '@ionic-native/file'; //usato per i download
 import { IonicStorageModule } from '@ionic/storage'; //usato per salvare key/data pairs nello storage del telefono
+import { Base64 } from "@ionic-native/base64";
 //pagine
 import { HomePage } from '../pages/home/home';
 import { WeekPage } from '../pages/week/week';
@@ -31,16 +32,14 @@ import { DownloadProvider } from '../providers/download/download'; //
 import { ToolsProvider } from '../providers/tools/tools';
 //importati da me per offrire funzionalità a più pagine
 import { HttpClientModule } from "@angular/common/http"; //importato nell'HttpProvider per far chiamate http
-import { PhotoViewer } from '@ionic-native/photo-viewer'; //importato nelle pagine per aprire immagini a schermo intero
 //https://ionicframework.com/docs/native/photo-viewer/
-import { DatePicker } from '@ionic-native/date-picker';
+import { PhotoViewer } from '@ionic-native/photo-viewer'; //importato nelle pagine per aprire immagini a schermo intero
 //https://ionicframework.com/docs/native/date-picker/
-import { IonicImageLoader } from 'ionic-image-loader';
+import { DatePicker } from '@ionic-native/date-picker';
 //https://www.npmjs.com/package/ionic-image-loader
-// import { FileOpener } from '@ionic-native/file-opener';
-//https://ionicframework.com/docs/native/file-opener/
-import { CacheModule } from 'ionic-cache';
+import { IonicImageLoader } from 'ionic-image-loader';
 //https://www.npmjs.com/package/ionic-cache
+import { CacheModule } from 'ionic-cache';
 //componenti custom creati da me
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 import { CardLayoutComponent } from "../components/card-layout/card-layout";
@@ -72,7 +71,7 @@ var AppModule = (function () {
                 HttpClientModule,
                 IonicImageLoader.forRoot(),
                 IonicStorageModule.forRoot(),
-                CacheModule.forRoot()
+                CacheModule.forRoot({ keyPrefix: 'APICallsCacher' })
             ],
             bootstrap: [IonicApp],
             entryComponents: [
@@ -98,7 +97,7 @@ var AppModule = (function () {
                 SettingsProvider,
                 DownloadProvider,
                 ToolsProvider,
-                ToolsProvider,
+                Base64
             ]
         })
     ], AppModule);

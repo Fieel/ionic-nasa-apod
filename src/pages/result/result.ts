@@ -34,7 +34,7 @@ export class ResultPage {
                 private settings: SettingsProvider
     ) {
 
-        this.pageTitle = "Result";
+        this.pageTitle = "Detail";
         this.date = navParams.get('date');
         console.log('data input: ', this.date);
 

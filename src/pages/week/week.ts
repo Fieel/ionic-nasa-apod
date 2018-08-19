@@ -69,6 +69,12 @@ export class WeekPage {
     }
 
     getAPOD(days, refresh=false){
+
+
+
+        this.tools.presentToast('Downloading APODs...', 3000);
+
+
         //se si tratta di un refresh risetto la data di oggi ad oggi così mi ricarica
         //proprio tutti i giorni da oggi
         if(refresh){

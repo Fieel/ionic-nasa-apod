@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 //componenti nativi ionic/angular
 import { Component } from '@angular/core';
 import { SplashScreen } from "@ionic-native/splash-screen";
-import { CacheService } from 'ionic-cache';
 //miei provider
 import { HttpProvider } from "../../providers/http/http"; //per fare richieste http
 import { SettingsProvider } from "../../providers/settings/settings";
@@ -18,12 +17,11 @@ import { SettingsProvider } from "../../providers/settings/settings";
 var HomePage = (function () {
     function HomePage(splashscreen, //x gestire lo splashscreen
         HttpProvider, //x richieste apod
-        settings, //x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
-        cache) {
+        settings //x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
+    ) {
         this.splashscreen = splashscreen;
         this.HttpProvider = HttpProvider;
-        this.settings = settings;
-        this.cache = cache;
+        this.settings = settings; //x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
         //1. inizializzo variabili
         this.titolo = "Today";
         this.data = {};
@@ -37,21 +35,29 @@ var HomePage = (function () {
     //chiamato durante un refresh
     HomePage.prototype.doRefresh = function (refresher) {
         console.log('Aggiornamento pagina!');
-        this.getAPOD();
+        this.getAPOD(true);
         console.log('Fine aggiornamento pagina!');
         refresher.complete();
     };
     //chiamata all'api
-    HomePage.prototype.getAPOD = function () {
+    HomePage.prototype.getAPOD = function (reloadCache) {
         var _this = this;
+        if (reloadCache === void 0) { reloadCache = false; }
         console.log('Caricamento dati APOD TODAY..');
-        var req = this.HttpProvider.getAPOD()
+        this.HttpProvider.getAPOD(reloadCache)
             .subscribe(function (data) {
             _this.data = data;
             _this.dataLength = Object.keys(_this.data).length;
-        });
-        //caching experiment
-        this.apod = this.cache.loadFromObservable(this.HttpProvider.url, req);
+        }
+        //     ,error => {
+        //         let alert = this.settings.alertCtrl.create({
+        //             title: 'Error loading the image',
+        //             subTitle: 'Oops, '+error.toString(),
+        //             buttons: ['...']
+        //         });
+        //         alert.present();
+        // }
+        );
     };
     HomePage = __decorate([
         Component({
@@ -60,8 +66,8 @@ var HomePage = (function () {
         }),
         __metadata("design:paramtypes", [SplashScreen,
             HttpProvider,
-            SettingsProvider,
-            CacheService])
+            SettingsProvider //x gestire variabili globali | USATO DIRETTAMENTE NELLA VIEW!
+        ])
     ], HomePage);
     return HomePage;
 }());

@@ -12,15 +12,9 @@
     <!-- icone + progress bar -->
     <progress-bar *ngIf="data.date == this.download.downloadingDate" [progress]="this.download.progress"></progress-bar>
     <div class="icons">
-      <!-- DOWNLOAD -->
-      <span *ngIf="data.media_type == 'image'" >
-                            <ion-icon name="download" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)"></ion-icon>
-                        </span>
 
-
-
-      <!-- PREFERITI -->
-      <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+        <!-- PREFERITI -->
+        <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
                             <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
                                 <ion-icon (click)="this.settings.removeFromFavourites(data)" name="star"></ion-icon>
                             </span>
@@ -31,6 +25,19 @@
                                 </span>
                             </ng-template>
                         </span>
+
+        <!-- FULLSCREEN -->
+        <span *ngIf="data.media_type == 'image'" >
+                            <ion-icon name="open" (click)="this.tools.showFullScreenImage(data.hdurl)"></ion-icon>
+                        </span>
+
+
+        <!-- DOWNLOAD -->
+      <span *ngIf="data.media_type == 'image'" >
+                            <ion-icon name="download" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)"></ion-icon>
+                        </span>
+
+
 
         <!-- SET AS WALLPAPER -->
         <span *ngIf="data.media_type == 'image'" >

@@ -11,21 +11,26 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { ImageLoader } from 'ionic-image-loader';
 var SettingsProvider = (function () {
-    function SettingsProvider(storage, alertCtrl) {
+    function SettingsProvider(storage, alertCtrl, imageLoader) {
         var _this = this;
         this.storage = storage;
         this.alertCtrl = alertCtrl;
+        this.imageLoader = imageLoader;
         //creo un osservabile che contiene il tema attuale
-        this.theme = new BehaviorSubject('dark-theme');
-        this.getActiveTheme().subscribe(function (val) { return _this.selectedTheme = val; });
+        //gli do la variabile contenente il tema di default
+        this.theme = new BehaviorSubject('loading');
+        this.fetchTheme();
+        //settare la variabile activeTheme uguale al tema attivo cosi da usarla in
+        //setAtiveTheme per alternare in base al tema che é attivo
+        this.getActiveTheme().subscribe(function (val) { return _this.activeTheme = val; });
     }
-    //
-    // THEMING
-    //
+    /* THEMING */
+    //chiamata nei settings per cambiare tema
     SettingsProvider.prototype.setActiveTheme = function () {
         console.log('setActiveTheme ative ');
-        if (this.selectedTheme === 'light-theme') {
+        if (this.activeTheme === 'light-theme') {
             this.theme.next('dark-theme');
             console.log('light->dark');
         }
@@ -33,23 +38,31 @@ var SettingsProvider = (function () {
             this.theme.next('light-theme');
             console.log('dark->light');
         }
-        console.log('tema corrente: ', this.selectedTheme);
+        console.log('tema corrente: ', this.activeTheme);
     };
+    //usato in app.module per costantemente asoltare il tema corrente e appliarne la classe
     SettingsProvider.prototype.getActiveTheme = function () {
         return this.theme.asObservable();
+    };
+    //fetcha il tema dallo storage e se non esiste setta il dark-theme di default
+    SettingsProvider.prototype.fetchTheme = function () {
+        var _this = this;
+        this.storage.get('theme').then(function (data) {
+            if (data) {
+                console.log("theme caricato dallo storage: ", data);
+                _this.theme.next(data);
+            }
+            else {
+                console.log('primo avvio, settato dark-theme di default...');
+                _this.theme.next('dark-theme');
+            }
+        });
     };
     /* STORAGE */
     //ripulisce tutti i dati salvati nella memoria del telefono
     //preferiti, settings varie etc...
     SettingsProvider.prototype.clearStorage = function () {
-        var _this = this;
         this.storage.clear().then(function (data) {
-            var alert = _this.alertCtrl.create({
-                title: 'Storage cleared',
-                subTitle: 'All app data has been wiped from the device',
-                buttons: ['Dismiss']
-            });
-            alert.present();
             console.log('Storage cleared!');
         });
     };
@@ -145,6 +158,17 @@ var SettingsProvider = (function () {
         this.storage.set('weekLayout', this.weekLayout);
         this.storage.set('resultLayout', this.resultLayout);
         this.storage.set('favouritesLayout', this.favouritesLayout);
+        this.storage.set('theme', this.activeTheme);
+    };
+    SettingsProvider.prototype.clearImgCache = function () {
+        this.imageLoader.clearCache();
+        // let alert = this.alertCtrl.create({
+        //     title: 'Img cache deleted',
+        //     subTitle: 'May prevent offline use.',
+        //     buttons: ['Dismiss']
+        // });
+        // alert.present();
+        console.log('ionic-image-loader img cache deleted');
     };
     /* PREFERITI */
     //GESTIONE ASYNC DATI/VIEW
@@ -171,33 +195,45 @@ var SettingsProvider = (function () {
     };
     //Aggiunge all'array dei preferiti una nuova voce
     SettingsProvider.prototype.addToFavourites = function (data) {
+        var _this = this;
         //FUNZIONA! Aggiungere il controllo se è già stato aggiunto ai preferiti
         //non ti permette di farlo ancora ma esce un messaggio (o magari non viene
         //renderizzato del tutto il tasto sulla carta direttamente nella view)?
         console.log("Aggiunto nuovo preferito: ", data);
         this.favourites.push(data);
-        this.storage.set('favourites', this.favourites);
-        var alert = this.alertCtrl.create({
-            title: data.title,
-            subTitle: 'This picture has just been added to your favorites\' collection!',
-            buttons: ['Thanks.']
+        this.storage.set('favourites', this.favourites).then(function (data) {
+            console.log('Storage ripulito totalmente!');
+            var alert = _this.alertCtrl.create({
+                title: data.title,
+                subTitle: 'This picture has just been added to your favorites\' collection!',
+                buttons: ['Thanks.']
+            });
+            alert.present();
         });
-        alert.present();
-        console.log('Storage ripulito totalmente!');
     };
     //rimuove dagli array dei preferiti una voce specifica basandosi sulla stringa
     //che rappresenta la data per fare il controllo if.
     SettingsProvider.prototype.removeFromFavourites = function (data) {
+        var _this = this;
         //filtra via l'oggetto che come data ha quella passata come parametro.
         this.favourites = this.favourites.filter(function (item) { return item.date !== data.date; });
-        this.storage.set('favourites', this.favourites);
-        console.log('Rimosso dai preferiti: ', data);
-        var alert = this.alertCtrl.create({
-            title: data.title,
-            subTitle: 'Picture succesfully removed from your favorites collection.',
-            buttons: ['Ok.']
+        this.storage.set('favourites', this.favourites).then(function (data) {
+            console.log('Rimosso dai preferiti: ', data);
+            var alert = _this.alertCtrl.create({
+                title: data.title,
+                subTitle: 'Picture succesfully removed from your favorites collection.',
+                buttons: ['Ok.']
+            });
+            alert.present();
         });
-        alert.present();
+    };
+    //svuota this.favourites e anche l'array nello storage
+    SettingsProvider.prototype.clearFavourites = function () {
+        //filtro TUTTI gli elementi, rimane un array vuoto
+        this.favourites = this.favourites.filter(function (x) { return x !== x; });
+        this.storage.set('favourites', this.favourites).then(function (data) {
+            console.log('Preferiti resettati: ', data);
+        });
     };
     /* SETTINGS VARIE */
     //gestisce la variabile giorniNelPassato aumentandola/diminuendola e salvando
@@ -245,7 +281,8 @@ var SettingsProvider = (function () {
     SettingsProvider = __decorate([
         Injectable(),
         __metadata("design:paramtypes", [Storage,
-            AlertController])
+            AlertController,
+            ImageLoader])
     ], SettingsProvider);
     return SettingsProvider;
 }());

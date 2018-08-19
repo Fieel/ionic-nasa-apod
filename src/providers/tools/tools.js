@@ -10,11 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PhotoViewer } from "@ionic-native/photo-viewer";
+import { ToastController } from 'ionic-angular';
 var ToolsProvider = (function () {
-    function ToolsProvider(http, photoViewer) {
+    function ToolsProvider(http, photoViewer, toastCtrl) {
         this.http = http;
         this.photoViewer = photoViewer;
+        this.toastCtrl = toastCtrl;
     }
+    ToolsProvider.prototype.setWallpaper = function (url) {
+        // let xhr = new XMLHttpRequest(); // create new request
+        // xhr.responseType = "arraybuffer"; // tell our reuqest that we want an arraybuffer
+        // xhr.onload = function() // gets executed when there is data (response)
+        // {
+        //     console.log('onload wallpaper');
+        //     let array = new Uint8Array(xhr.response);
+        //     let raw = ""; // variable for storing raw image data
+        //     let chunk = 5000;
+        //     for (let i = 0; i < array.length; i += chunk)
+        //     {
+        //         let subArray = array.subarray(i, i + chunk);
+        //         raw += String.fromCharCode.apply(null, subArray);
+        //     }
+        //     let base64 = btoa(raw); // convert byte toBase64
+        //     window.plugins.wallpaper.setImageBase64(base64); // set image as wallpaper
+        // };
+        // xhr.open("GET", url, true); // your URL here
+        // xhr.send(); // send request
+        // (<any>window).plugins.wallpaper.setImage(url);
+        //cordova.plugins.wallpaper.setImage();
+    };
     //apre l'immagine cliccata in fullscreen
     ToolsProvider.prototype.showFullScreenImage = function (hdurl) {
         this.photoViewer.show(hdurl);
@@ -53,10 +77,23 @@ var ToolsProvider = (function () {
             day = '0' + day;
         return [year, month, day].join('-');
     };
+    ToolsProvider.prototype.presentToast = function (msg, duration, position) {
+        if (position === void 0) { position = 'bottom'; }
+        var toast = this.toastCtrl.create({
+            message: msg,
+            duration: duration,
+            position: position
+        });
+        toast.onDidDismiss(function () {
+            console.log('Dismissed toast, content:' + msg);
+        });
+        toast.present();
+    };
     ToolsProvider = __decorate([
         Injectable(),
         __metadata("design:paramtypes", [HttpClient,
-            PhotoViewer])
+            PhotoViewer,
+            ToastController])
     ], ToolsProvider);
     return ToolsProvider;
 }());

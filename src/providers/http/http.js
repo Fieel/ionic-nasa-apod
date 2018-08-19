@@ -10,9 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { Observable } from "rxjs/Observable";
 import 'rxjs/Rx';
-import { CacheService } from 'ionic-cache';
+import { CacheService } from "ionic-cache";
 /*
   Generated class for the HttpProvider provider.
 
@@ -23,22 +22,46 @@ var HttpProvider = (function () {
     function HttpProvider(http, cache) {
         this.http = http;
         this.cache = cache;
+        this.apodKeys = 'apod-keys-group';
+        this.dailyTtl = 60 * 60 * 12; //ttl di 12 ore per le richieste 'today''
         //inizializzo
-        this.data = {};
+        //this.data = {};
+        this.url = 'https://api.nasa.gov/planetary/apod?api_key=';
         this.APIkey = 'uoEtZqnZxnmcYLuG57SfvvYDu1c5g5kPtJfOSR3S';
-        this.url = 'https://api.nasa.gov/planetary/apod?api_key=' + this.APIkey;
     }
     //ritorna i dati APOD del giorno attuale e basta
-    HttpProvider.prototype.getAPOD = function () {
-        return this.http.get('https://api.nasa.gov/planetary/apod?api_key=' + this.APIkey)
-            .map(function (res) { return res; })
-            .catch(function (error) { return Observable.throw(error.json() || 'Server Error'); });
+    HttpProvider.prototype.getAPOD = function (reloadCache) {
+        if (reloadCache === void 0) { reloadCache = false; }
+        var request = this.http.get(this.url + this.APIkey);
+        console.log('New http request: ', request);
+        if (reloadCache) {
+            console.log('Force reloading cache');
+            return this.cache.loadFromDelayedObservable(this.url + this.APIkey, request, this.apodKeys, this.dailyTtl, 'all');
+        }
+        else {
+            return this.cache.loadFromObservable(this.url + this.APIkey, request, this.apodKeys);
+        }
+        //.catch(error => Observable.throw(error.json() || 'Server Error'));
+        // return this.http.get(this.url+this.APIkey)
+        //     .map(res => res)
+        //     .catch(error => Observable.throw(error.json() || 'Server Error'));
     };
     //ritorna i dati APOD di una data specifica già passata convertita
-    HttpProvider.prototype.GetOneDayAPOD = function (date) {
-        return this.http.get('https://api.nasa.gov/planetary/apod?api_key=' + this.APIkey + '&date=' + date)
-            .map(function (res) { return res; })
-            .catch(function (error) { return Observable.throw(error.json() || 'Server Error'); });
+    HttpProvider.prototype.GetOneDayAPOD = function (date, reloadCache) {
+        if (reloadCache === void 0) { reloadCache = false; }
+        var request = this.http.get(this.url + this.APIkey + '&date=' + date);
+        console.log('New speific http request: ', date, request);
+        if (reloadCache) {
+            console.log('Force reloading cache');
+            return this.cache.loadFromDelayedObservable(this.url + this.APIkey + '&date=' + date, request, this.apodKeys, undefined, 'all');
+        }
+        else {
+            return this.cache.loadFromObservable(this.url + this.APIkey + '&date=' + date, request, this.apodKeys);
+        }
+        //.catch(error => Observable.throw(error.json() || 'Server Error'));
+        // return this.http.get(this.url+this.APIkey+'&date='+date)
+        //     .map(res => res)
+        //     .catch(error => Observable.throw(error.json() || 'Server Error'));
     };
     HttpProvider = __decorate([
         Injectable(),

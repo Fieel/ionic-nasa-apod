@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { HttpProvider } from "../../providers/http/http";
-import { LoadingProvider } from "../../providers/loading/loading";
 import { SettingsProvider } from "../../providers/settings/settings";
 /**
  * Generated class for the ResultPage page.
@@ -19,35 +18,42 @@ import { SettingsProvider } from "../../providers/settings/settings";
  * Ionic pages and navigation.
  */
 var ResultPage = (function () {
-    function ResultPage(navParams, HttpProvider, loading, settings) {
+    function ResultPage(navParams, HttpProvider, settings) {
         this.navParams = navParams;
         this.HttpProvider = HttpProvider;
-        this.loading = loading;
         this.settings = settings;
         this.pageTitle = "Result";
         this.date = navParams.get('date');
         console.log('data input: ', this.date);
         this.data = {};
-        loading.showLoading();
         this.getAPOD(this.date);
         this.dataLength = Object.keys(this.data).length;
-        loading.hideLoading();
         console.log("ResultPage loaded");
     }
     //chiamato durante un refresh
-    // doRefresh(refresher) {
-    //     console.log('Aggiornamento pagina!');
-    //     this.getAPOD(this.date);
-    //     console.log('Fine aggiornamento pagina!');
-    //     refresher.complete();
-    // }
-    ResultPage.prototype.getAPOD = function (date) {
+    ResultPage.prototype.doRefresh = function (refresher) {
+        console.log('Aggiornamento pagina!');
+        this.getAPOD(this.date, true);
+        console.log('Fine aggiornamento pagina!');
+        refresher.complete();
+    };
+    ResultPage.prototype.getAPOD = function (date, reloadCache) {
         var _this = this;
-        this.HttpProvider.GetOneDayAPOD(date)
+        if (reloadCache === void 0) { reloadCache = false; }
+        this.HttpProvider.GetOneDayAPOD(date, reloadCache)
             .subscribe(function (data) {
             _this.data = data;
             _this.dataLength = Object.keys(_this.data).length;
-        });
+        }
+        // ,error => {
+        //         let alert = this.settings.alertCtrl.create({
+        //             title: 'Error loading the image',
+        //             subTitle: 'Oops, '+error.toString(),
+        //             buttons: ['...']
+        //         });
+        //         alert.present();
+        //     }
+        );
     };
     ResultPage = __decorate([
         Component({
@@ -56,7 +62,6 @@ var ResultPage = (function () {
         }),
         __metadata("design:paramtypes", [NavParams,
             HttpProvider,
-            LoadingProvider,
             SettingsProvider])
     ], ResultPage);
     return ResultPage;

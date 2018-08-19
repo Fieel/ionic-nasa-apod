@@ -56,16 +56,17 @@ export class SettingsPage {
 
         let alert = this.settings.alertCtrl.create({
             title: 'Favourites deleted',
-            subTitle: 'Your list of favourites has been emptied',
+            subTitle: 'Your list of favorites has been emptied',
             buttons: ['Dismiss']
         });
         alert.present();
 
     }
     clearAllData(){
-        this.settings.clearImgCache();
+        this.clearImgCache();
         this.settings.clearStorage();
         this.settings.clearFavourites();
+        this.download.deleteCachedImageFiles();
     }
 
     //update storage quando si chiude la pagina settings

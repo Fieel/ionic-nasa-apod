@@ -8,6 +8,7 @@ import { File } from '@ionic-native/file';
 import { AlertController } from 'ionic-angular';
 import { Base64 } from '@ionic-native/base64';
 import { ToolsProvider } from "../tools/tools";
+import { LoadingController } from 'ionic-angular';
 
 declare var window: any;
 declare var cordova: any;
@@ -24,7 +25,8 @@ export class DownloadProvider {
                 private file: File,
                 public alertCtrl: AlertController,
                 private base64: Base64,
-                private tools: ToolsProvider) {
+                private tools: ToolsProvider,
+                public loadingCtrl: LoadingController) {
         this.progress = 0;
     }
 
@@ -66,6 +68,22 @@ export class DownloadProvider {
                     //salvo il file una volta arrivato
                 case HttpEventType.Response:
                     console.log('😺 Done!', event.body);
+
+                    if(setWallpaper) {
+
+                        var loading = this.loadingCtrl.create({
+                            content: 'Setting up new wallpaper....',
+                        });
+
+                        loading.present();
+                    } else {
+                        var loading = this.loadingCtrl.create({
+                            content: 'Saving image to gallery....',
+                        });
+
+                        loading.present();
+                    }
+
                     this.file.writeFile(this.file.dataDirectory, "tmp.jpg", event.body, {replace: true}).then(
                         (file) => {
                             console.log('download.ts, tmp.jpg: file tmp salvato con successo', file);
@@ -73,8 +91,6 @@ export class DownloadProvider {
                             // Se la flag é true allora setta il wallpaper invece che salvare nella gallery
                             if(setWallpaper){
 
-                                // toast che segnala l'imminente cambio di wallpaper
-                                this.tools.presentToast('Setting up new wallpaper...', 5000);
 
                                 console.log('Encodin del wallpaper in base64... ' , this.file.dataDirectory+'tmp.jpg');
 
@@ -93,6 +109,14 @@ export class DownloadProvider {
                                             console.log('Errore nella settaggio del wallpaper: ', error);
                                         });
 
+
+                                    // toast che segnala l'imminente cambio di wallpaper
+                                    this.tools.presentToast('Phone wallpaper changed!', 3000);
+                                    loading.dismiss();
+
+
+
+
                                 }, (err) => {
                                     console.log('Errore nella conversione in BAse64',err);
                                 });
@@ -102,22 +126,18 @@ export class DownloadProvider {
                                 console.log('Spostando il file temporaneo nella gallery... ');
                                 // sposta il file temporaneo nella galleria
                                 (<any>window).cordova.plugins.imagesaver.saveImageToGallery(this.file.dataDirectory+'tmp.jpg', onSaveImageSuccess, onSaveImageError);
+                                loading.dismiss();
                             }
 
 
 
 
                             let alertCtrl = this.alertCtrl;
-
+                            var self = this;//per poter usare il contesto this ed accedere al toastCtrl nella funzione sottostante
                             //successo totale
                             function onSaveImageSuccess(){
                                 console.log('download.ts, tmp.jpg: salvataggio riuscito nella cartella Images/Pictures.');
-                                let alert = alertCtrl.create({
-                                    title: 'Image saved! :D',
-                                    subTitle: 'The picture \"'+name+'\" has been saved in your phone gallery.',
-                                    buttons: ['Wow, rad!']
-                                });
-                                alert.present();
+                                self.tools.presentToast('Image saved in the phone gallery', 3000);
                             }
                             //fallimento nello spostare il file in images
                             function onSaveImageError(error) {
@@ -158,13 +178,17 @@ export class DownloadProvider {
             console.log('files in cache directory: ', result);
         }) ;
 
-        // cache/org.chromium.android_webview
+
+
+
+
+        // /cache/org.chromium.android_webview
         // dove stanno tutte le immagini cachate che pesano un bordello
         this.file.listDir(this.file.cacheDirectory,'org.chromium.android_webview').then((result)=>{
 
             console.log('files in org.chromium.android_webview directory: ', result);
 
-            console.log('Started deleting files from cache folder!');
+            console.log('Started deleting files from org.chromium.android_webview folder!');
 
             for(let file of result){
 
@@ -183,13 +207,51 @@ export class DownloadProvider {
                         file.getMetadata(function (metadata) {
                             let name = file.name ;
                             let size = metadata.size ;
-                            console.log('Error deleting file from cache folder: ', error) ;
+                            console.log('Error deleting file from org.chromium.android_webview folder: ', error) ;
                             console.log('Name: ' + name + ' / Size: ' + size) ;
                         }) ;
                     });
 
                 }
             }
+        }) ;
+
+
+        // /picasso-cache
+        // Ci finiscono le immagini cachate dal plugin che apre a schermo intero le foto
+        this.file.listDir(this.file.cacheDirectory,'picasso-cache').then((result)=>{
+
+            console.log('files in picasso-cache directory: ', result);
+
+            console.log('Started deleting files from picasso-cache folder!');
+
+            for(let file of result){
+
+                if(file.isFile == true){
+
+                    this.file.removeFile(this.file.cacheDirectory+'/picasso-cache/', file.name).then( data => {
+                        console.log('file removed: ', this.file);
+                        data.fileRemoved.getMetadata(function (metadata) {
+                            let name = data.fileRemoved.name;
+                            let size = metadata.size ;
+                            let fullPath = data.fileRemoved.fullPath;
+                            console.log('Deleted file: ', name, size, fullPath) ;
+                            console.log('Name: ' + name + ' / Size: ' + size) ;
+                        }) ;
+                    }).catch( error => {
+                        file.getMetadata(function (metadata) {
+                            let name = file.name ;
+                            let size = metadata.size ;
+                            console.log('Error deleting file from picasso-cache folder: ', error) ;
+                            console.log('Name: ' + name + ' / Size: ' + size) ;
+                        }) ;
+                    });
+
+                }
+            }
+
+
+
         }) ;
     }
 

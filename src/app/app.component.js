@@ -28,21 +28,20 @@ var MyApp = (function () {
         this.imageLoaderConfig = imageLoaderConfig;
         this.settings = settings;
         this.rootPage = TabsPage;
-        //osservabile da fetchare che aggiorna il tema in uso
+        // osservabile da fetchare che aggiorna il tema in uso perennemente
         // https://www.youtube.com/watch?v=GgYfGHG7bQc
         this.settings.getActiveTheme().subscribe(function (val) { return _this.selectedTheme = val; });
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             //CACHING
-            // Set TTL to 12h
-            cache.setDefaultTTL(60 * 60 * 12);
-            // Keep our cached results when device is offline!
+            // Set TTL to 1 week
+            cache.setDefaultTTL(60 * 60 * 24 * 7);
+            // Keep our cached results when device is offline
             cache.setOfflineInvalidate(false);
-            //carico le settings dallo storage
-            _this.settings.fetchStorageData();
             statusBar.styleDefault();
             // splashScreen.hide();
+            _this.settings.fetchStorageData();
         });
     }
     MyApp.prototype.openHomePage = function () {

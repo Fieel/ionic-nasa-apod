@@ -74,7 +74,16 @@ var WeekPage = (function () {
                 .subscribe(function (data) {
                 _this.orderedData[$i] = data;
                 _this.data = _this.orderedData.filter(function (item) { return item; });
-            });
+            }
+            // ,error => {
+            //     let alert = this.settings.alertCtrl.create({
+            //         title: 'Error loading the image',
+            //         subTitle: 'Oops, '+error.toString(),
+            //         buttons: ['...']
+            //     });
+            //     alert.present();
+            // }
+            );
         };
         var this_1 = this;
         //creo/aggiorno l'array di dati usando le date passate

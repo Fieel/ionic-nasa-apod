@@ -140,7 +140,7 @@ export class SettingsProvider {
                 this.weekLayout = data;
                 console.log("Layout pagina week caricato dallo storage!", this.weekLayout);
             } else {
-                this.weekLayout = "card";
+                this.weekLayout = "grid";
                 this.storage.set('weekLayout', this.weekLayout);
                 console.log("Layout pagina today inizializzata: ", this.weekLayout);
             }});
@@ -165,6 +165,8 @@ export class SettingsProvider {
                 console.log("Layout pagina favourites inizializzata: ", this.favouritesLayout);
             }});
     }
+
+
     //serve per aggiornare le impostazioni nello storage quando si lascia
     //la pagina delle settings dopo averle modificate.
     public updateStorageData(){
@@ -221,7 +223,7 @@ export class SettingsProvider {
         //renderizzato del tutto il tasto sulla carta direttamente nella view)?
         console.log("Aggiunto nuovo preferito: ", data);
         this.favourites.push(data);
-        this.storage.set('favourites', this.favourites).then( data => {
+        this.storage.set('favourites', this.favourites).then( x => {
             console.log('Storage ripulito totalmente!');
         let alert = this.alertCtrl.create({
             title: data.title,
@@ -237,7 +239,7 @@ export class SettingsProvider {
     public removeFromFavourites(data){
         //filtra via l'oggetto che come data ha quella passata come parametro.
         this.favourites = this.favourites.filter(item => item.date !== data.date);
-        this.storage.set('favourites', this.favourites).then( data => {
+        this.storage.set('favourites', this.favourites).then( x => {
         console.log('Rimosso dai preferiti: ', data);
         let alert = this.alertCtrl.create({
             title: data.title,
@@ -281,7 +283,7 @@ export class SettingsProvider {
 
         /* defaults: */
         //todayPage = card
-        //weekPage = card
+        //weekPage = grid
         //resultPage = card
         //favouritesPage = grid
 
@@ -309,6 +311,7 @@ export class SettingsProvider {
             }
         }
     }
+
 
 
 }

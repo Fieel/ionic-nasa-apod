@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import {HttpProvider} from "../../providers/http/http";
 import {SettingsProvider} from "../../providers/settings/settings";
 import {DomSanitizer} from "@angular/platform-browser";
-import {PhotoViewer} from "@ionic-native/photo-viewer";
 import {DownloadProvider} from "../../providers/download/download";
 import {ResultPage} from "../result/result";
 import {ToolsProvider} from "../../providers/tools/tools";

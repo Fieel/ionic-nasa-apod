@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {ResultPage} from "../result/result";
-import {ToolsProvider} from "../../providers/tools/tools";
+import { ResultPage } from "../result/result";
+import { ToolsProvider } from "../../providers/tools/tools";
 
 /**
  * Generated class for the TimemachinePage page.
@@ -15,6 +15,7 @@ import {ToolsProvider} from "../../providers/tools/tools";
     templateUrl: 'timemachine.html',
 })
 export class TimemachinePage {
+
     date: any;
     stringDate: string;
 
@@ -26,6 +27,7 @@ export class TimemachinePage {
         this.setTodayDate();
         console.log("TimeMachinePage loaded");
     }
+    
     changePage(){
         console.log('CLICK cambio pagina con data ', this.date);
         if(this.date == undefined){

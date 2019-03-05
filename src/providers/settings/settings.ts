@@ -6,6 +6,7 @@ import { ImageLoader } from 'ionic-image-loader';
 
 @Injectable()
 export class SettingsProvider {
+    
     public daysInThePast: number;
     public favourites: any[];
 

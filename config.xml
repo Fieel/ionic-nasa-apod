@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>APOD_nasa</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+<widget id="com.fieel.nasaAPOD" version="0.5.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>NASA APoD</name>
+    <description>Simple app to browse the daily Astro Photo of the Day choosen by NASA.</description>
+    <author email="contact@filipemadureira.com" href="https://filipemadureira.com/">Filipe Madureira</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -89,6 +89,6 @@
     <plugin name="cordova-plugin-save-image" spec="~0.3.0" />
     <plugin name="cordova-plugin-wallpaper" spec="^0.1.1" />
     <plugin name="com-badrit-base64" spec="^0.2.0" />
-    <engine name="browser" spec="5.0.3" />
-    <engine name="android" spec="^7.0.0" />
+    <engine name="android" spec="7.0.0" />
+    <engine name="browser" spec="5.0.4" />
 </widget>

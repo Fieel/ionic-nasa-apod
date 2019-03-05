@@ -15,6 +15,7 @@ declare var cordova: any;
 
 @Injectable()
 export class DownloadProvider {
+    
     data: Blob;
     downloadingDate: string;
     progress: number;

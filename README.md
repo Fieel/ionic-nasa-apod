@@ -20,7 +20,7 @@ The app primary page is Tabs which allows you to navigate between "Today" and "P
 * Red parallelogram: Plugins/packages
 * Pink circle: custom angular component
 
-![Nasa custom APOD app](https://github.com/Fieel/NASA_APOD/blob/master/doc/Nasa%20custom%20APOD%20app.png?raw=true)
+![Nasa custom APOD app](/doc/Nasa&#32;custom&#32;APOD&#32;app.png)
 
 ### Logic
 
@@ -116,13 +116,62 @@ ionic serve --lab
 
 By being logged in in the same Google account and visiting the page **chrome://inspect/#devices**, you can remotely use Google's development tools (F12 with chrome) on a remote location, such as a Ionic app running on a remote device. This allows you to both test Cordova native plugins and functionalities (such as using the real phone hardware characteristics) and your javascript console and network tools exactly as you would do with browser debugging.
 
+
+## Build
+
+Build an unsigned APK for release:
+
+```bash
+ionic cordova build --release android
+```
+
+This will create an .apk file in the path *./platforms/android/app/bu
+ild/outputs/apk/release/app-release-unsigned.apk*, this .apk is unsigned and still needs this last step before being ready for publishing in the play store.
+
+## Publishing
+
+Ionic official publishing guide (followed this one): 
+https://ionicframework.com/docs/v1/guide/publishing.html
+Android official apk signing guide: https://developer.android.com/studio/publish/app-signing
+
+1. Generate keystore:
+
+```bash
+keytool -genkey -v -keystore nasa-apod.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+```
+
+This will create a .keystore file, which we will use now to sign the apk file.
+
+
+
+2. Sign unsigned apk:
+
+
+```bash
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore nasa-apod.keystore ./platforms/android/app/bu
+ild/outputs/apk/release/app-release-unsigned.apk alias_name
+```
+
+3. optimize with zipalign
+(Bisogna aggiungere all path zipalign, che si trova sempre in una sottodirectory dell'sdk android, nel mio caso *Users\fil\AppData\Local\Android\Sdk\build-tools\28.0.3\\zipalign.exe*)
+
+
+```bash
+zipalign -v 4 ./platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk NasaApod.apk
+```
+
 ## Ionic Dependencies
 
 * [@ionic/storage@2.1.3](https://ionicframework.com/docs/storage/): Save key/data pairs in the device's storage. Used to store all of the app settings, such as chosen page's layout etc.
 * [@angular/platform-browser@5.0.3 DomSanitizer](https://angular.io/api/platform-browser/DomSanitizer): Used to safely load youtube videos in case the API is feeding one (the NASA APOD API occasionally feeds different media types such as YouTube links). Used in all the views which load the API: Home, Week, Result and Favorites.
 * [ImageLoader@5.0.5](https://www.npmjs.com/package/ionic-image-loader): Allows the use of <img-loader> instead of <img> tags. The new tag will check if a given image has already been saved in the device storage before downloading and loads it from the device if positive, otherwise it just downloads the image. Just my first step towards reducing data usage.
 * [cordova-plugin-file@8.x](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/): Cordova plugin to access and interact with the filesystem. (save, delete files)
+
+
 ## Core Dependencies
+
+**Using Ionic 3 and not Ionic 4** because the app would need to be rewritten given the changes in the framework.
+
 
 * Adb (installed with Android Studio) [link](https://developer.android.com/studio/command-line/adb)
 

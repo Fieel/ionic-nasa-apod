@@ -6,7 +6,7 @@ Android app to browse Nasa's Astro Photo of the Day gallery. This app uses the f
 
 * Open the app and instantly check the last Astro Photo Of the Day
 * Navigate back in time and check the APOD for any given day since **June 16 1995**, the date  the first APOD was released from NASA.
-* Save your favorite days in your own APOD favorite gallery so you can easily reach them again in the future.
+* Save your favorite days in your own APOD favorite gallery so you can easily reach them again in the future
 * Download any image from the NASA server, built-in download function.
 *  Settings to change pages layouts.
 * Support for most media featured in the NASA API, including videos, gifs and images.

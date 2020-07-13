@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+    <ion-title>{{this.titolo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center ion-padding">
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div style="height: 100%;" *ngIf="this.dataLength && this.dataLength != 0;else notOnline">
+
+    <div style="height: 100%;" *ngIf="this.settings.todayLayout === 'card' ">
+      <app-card-layout *ngIf="this.dataLength != 0" [data]="data"></app-card-layout>
+    </div>
+
+    <div style="height: 100%;" *ngIf="this.settings.todayLayout === 'fullscreen' ">
+      <app-fullscreen-layout style="height: 100%;" *ngIf="this.dataLength != 0" [data]="data"></app-fullscreen-layout>
+    </div>
+
+  </div>
+
+  <ng-template #notOnline>
+    <div class="not-online">
+      <h2>No data :( are you online?</h2>
+    </div>
+  </ng-template>
+
+
+</ion-content>

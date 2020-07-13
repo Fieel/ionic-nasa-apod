@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+    <ion-title>{{this.titolo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center ion-padding">
+
+  <h1 class="titolo" text-center>Settings</h1>
+
+  
+  <img src="../../assets/icon/Observatory.svg">
+
+  <!-- <ion-avatar class="ion-align-items-center">
+  </ion-avatar> -->
+
+  <ion-card>
+      <ion-grid>
+          <ion-row>
+              <ion-col align-self-center>
+                  <h1 class="sottotitolo">Size of 'Past' tab in # of elements per page</h1>
+              </ion-col>
+              <ion-col align-self-center>
+                  <ion-button ion-button [disabled]="this.settings.daysInThePast >= 20" color="light" icon-only (click)="this.settings.increaseDays()">
+                      <ion-icon name='arrow-up'></ion-icon>
+                  </ion-button>
+                  <p class="contatore">{{ this.settings.daysInThePast }}</p>
+                  <ion-button ion-button [disabled]="this.settings.daysInThePast <= 6" color="light" icon-only (click)="this.settings.decreaseDays()">
+                      <ion-icon name='arrow-down'></ion-icon>
+                  </ion-button>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </ion-card>
+
+  <ion-card>
+      <h1 class="settings-subtitle">Pages layouts</h1>
+
+      <ion-item>
+          <ion-label class="settings-layout-labels">Home page</ion-label>
+          <ion-select [(ngModel)]="this.settings.todayLayout" cancelText="Back" okText="Okay">
+              <ion-select-option value="card">Card</ion-select-option>
+              <ion-select-option value="fullscreen">Fullscreen</ion-select-option>
+          </ion-select>
+      </ion-item>
+
+
+      <ion-item>
+          <ion-label class="settings-layout-labels">Detail page</ion-label>
+          <ion-select [(ngModel)]="this.settings.resultLayout" cancelText="Back" okText="Okay">
+              <ion-select-option value="card">Card</ion-select-option>
+              <ion-select-option value="fullscreen">Fullscreen</ion-select-option>
+          </ion-select>
+      </ion-item>
+
+  </ion-card>
+
+
+
+  <ion-card>
+      <h1 class="settings-subtitle">Day / Night themes</h1>
+      <ion-card-content>
+          <p>Switch between Light and Dark theme.</p>
+      </ion-card-content>
+      <ion-button (click)="settings.setActiveTheme('light-theme')">
+          <!--<ion-icon name="moon"></ion-icon>-->
+          Switch
+          <!--<ion-icon name="sunny"></ion-icon>-->
+      </ion-button>
+  </ion-card>
+
+  <ion-card>
+      <ion-card-title class="settings-subtitle">Delete cached images</ion-card-title>
+      <ion-card-content>
+          <p>Delete cached images to free some of your devie storage space.</p>
+      </ion-card-content>
+      <ion-button (click)="clearImgCache()">Delete cached images</ion-button>
+
+      <ion-card-title class="settings-subtitle">Reset favourites</ion-card-title>
+      <ion-card-content>
+          <p>Delete all your favourites and start from scratch.</p>
+      </ion-card-content>
+      <ion-button (click)="clearFavourites()">Delete favourites</ion-button>
+
+      <ion-card-title class="settings-subtitle">Erase all app data</ion-card-title>
+      <ion-card-content>
+          <p>This will delete all app data from the phone, including settings and favourites.</p>
+      </ion-card-content>
+      <ion-button class="button-md-danger" ion-button (click)="clearAllData()">Erase all data</ion-button>
+  </ion-card>
+</ion-content>

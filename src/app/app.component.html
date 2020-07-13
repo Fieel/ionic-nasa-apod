@@ -1,0 +1,18 @@
+<ion-app>
+  <ion-menu side="start" menuId="first" contentId="main" [class]="selectedTheme">
+    <ion-content>
+      <ion-item>
+          <img class="logo-stile" src="./assets/icon/Satellite 2.svg">
+          <h1>NASA APOD</h1>
+      </ion-item>
+      <ion-list>
+        <ion-menu-toggle *ngFor="let page of navigate" [routerLink]="page.url" router>
+          <ion-item>
+            {{page.title}} 
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+  </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main" [class]="selectedTheme"></ion-router-outlet>
+</ion-app>

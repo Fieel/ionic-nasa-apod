@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+    <ion-title>{{this.titolo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- refresher -->
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+  
+      <div *ngIf="data.length !== 0;else notOnline">
+  
+          <list [layout]="this.settings.weekLayout" [data]="data" ></list>
+  
+          <button full ion-button (click)="getAPOD(this.settings.daysInThePast, false)" > Load {{ this.settings.daysInThePast}} more days </button>
+  
+      </div>
+  
+      <ng-template #notOnline>
+          <div class="not-online">
+              <h2>No data :( are you online?</h2>
+          </div>
+      </ng-template>
+    
+</ion-content>

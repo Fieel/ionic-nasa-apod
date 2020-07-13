@@ -1,0 +1,56 @@
+<ion-card class="stile-paragrafi" class="testo-paragrafi ion-padding" >
+
+  <!-- immagine con supporto cache -->
+  <div *ngIf="data.media_type == 'image'"  class="stile-immagine">
+    <div (click)="this.tools.showFullScreenImage(data.hdurl)">
+      <img-loader src="{{ data.url }}" useImg></img-loader>
+    </div>
+  </div>
+
+  <div *ngIf="data.media_type == 'video'" class="video-container">
+    <iframe  [src]="this.sanitizer.bypassSecurityTrustResourceUrl(data.url)"
+             frameborder="0" align="middle" allow="autoplay; encrypted-media">
+    </iframe>
+  </div>
+
+  <!-- TODO: reimplement custom progress bar component -->
+  <!-- <progress-bar *ngIf="data.date == this.download.downloadingDate" [progress]="this.download.progress"></progress-bar> -->
+
+  <div class="icons">
+
+    <!-- DOWNLOAD -->
+    <span *ngIf="data.media_type == 'image'" (click)="this.download.downloadImage(data.hdurl, data.title, data.date)">
+                  <ion-icon name="download"></ion-icon>
+                  </span>
+
+    <span *ngIf="this.settings.checkIfFavouritesAreAvailable()" >
+              <span *ngIf="this.settings.checkIfAlreadyFavourite(data.date);else notFavouriteIcon">
+                  <ion-icon (click)="this.settings.removeFromFavourites(data)" name="star"></ion-icon>
+              </span>
+              <ng-template #notFavouriteIcon>
+                  <span>
+                      <ion-icon (click)="this.settings.addToFavourites(data)" name="add-circle"></ion-icon>
+                  </span>
+              </ng-template>
+          </span>
+
+      <!-- SET AS WALLPAPER -->
+      <span *ngIf="data.media_type == 'image'" (click)="this.download.downloadImage(data.hdurl, data.title, data.date, true)">
+                  <ion-icon name="image"></ion-icon>
+                  </span>
+
+
+    <!-- LINK DIRETTO -->
+    <span *ngIf="data.media_type == 'video'">
+              <a class="external-link" href="{{data.url}}">
+                  <ion-icon name="link"></ion-icon>
+              </a>
+          </span>
+
+  </div>
+
+  <h1 class="stile-titolo">{{ data.title }}</h1>
+  <p class="stile-copyright"  *ngIf="data.copyright">{{data.copyright}}</p>
+  <h6 class="stile-data">{{ data.date }}</h6>
+  <p class="stile-testo">{{ data.explanation }}</p>
+</ion-card>

@@ -1,0 +1,80 @@
+.spacing-carte{
+    margin-bottom: 5vh;
+}
+
+ion-col{
+    padding: 5px;
+    ion-card.blurred-title-card {
+      position: relative;
+      margin: 0;
+      width: 100%;
+
+
+      .card-image {
+        width: 100%;
+        height: 60vw;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .card-title-background, .card-title {
+        position: absolute;
+        width: 100%;
+        height: 60px;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        overflow: hidden;
+
+        p.data{
+          font-size: 11px;
+        }
+      }
+
+      .card-title-background span{
+        position: absolute;
+        width: 100%;
+        height: 60vw;
+        bottom: 0;
+        left: 0;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        -webkit-filter: blur(10px);
+        -moz-filter: blur(10px);
+        -o-filter: blur(10px);
+        -ms-filter: blur(10px);
+        filter: blur(10px);
+      }
+
+      .card-title {
+        padding: 10px;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-align-content: stretch;
+        -ms-flex-line-pack: stretch;
+        align-content: stretch;
+        -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+
+        p {
+          line-height: 100%;
+          font-size: 1em;
+          font-weight: normal;
+          width: 100%;
+        }
+      }
+    }
+  }

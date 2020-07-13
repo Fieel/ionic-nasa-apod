@@ -1,0 +1,52 @@
+<!-- check card layout -->
+<div *ngIf="this.layout === 'card' ">
+
+  <div *ngFor="let i of data">
+    <card-layout [data]="i"></card-layout>
+  </div>
+
+</div>
+<!-- END layout card -->
+
+<!-- check grid layout -->
+<div *ngIf="this.layout === 'grid' ">
+
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col col-6 *ngFor="let i of data">
+
+        <ion-card class="blurred-title-card" (click)="changePage(i.date)">
+
+          <!-- se è un video allora uso la thumbnail per il background -->
+          <div *ngIf="i.media_type == 'image'" class="card-image" [style.background-image]="'url(' + i.url + ')'"></div>
+          <div *ngIf="i.media_type == 'video'" class="card-image"
+            [style.background-image]="'url('+this.tools.getYoutubeVideoId(i.url)+')'"></div>
+
+
+          <div class="card-title-background">
+            <span *ngIf="i.media_type == 'image'" [style.background-image]="'url(' + i.url + ')'"></span>
+            <span *ngIf="i.media_type == 'video'"
+              [style.background-image]="'url('+this.tools.getYoutubeVideoId(i.url)+')'"></span>
+          </div>
+
+          <div class="card-title">
+            <p>
+              {{i.title}}
+            </p>
+            <p class="data">
+              {{i.date}}
+            </p>
+          </div>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+</div>
+<!-- END layout grid -->

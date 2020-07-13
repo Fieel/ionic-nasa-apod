@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+    <ion-title>{{this.titolo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center ion-padding">
+  <h1>Time machine</h1>
+  <img class="timemachine-icon" src="./assets/icon/Comet.svg">
+  <!--<img class="timemachine-icon" src="../../assets/icon/Comet.svg">-->
+  <p>Pick any date and travel back in time to retrieve the daily APOD of the given day.</p>
+  <ion-item>
+      <ion-label text-left>Pick a date</ion-label>
+      <ion-datetime displayFormat="D MMMM YYYY"
+                    pickerFormat="D MMMM YYYY"
+                    placeholder="today"
+                    min="1995-06-16"
+                    [max]="stringDate"
+                    doneText="Select"
+                    cancelText="Close"
+                    [(ngModel)]="date">
+      </ion-datetime>
+  </ion-item>
+  <ion-button class="timemachine-button" (click)="changePage()">Travel</ion-button>
+</ion-content>
